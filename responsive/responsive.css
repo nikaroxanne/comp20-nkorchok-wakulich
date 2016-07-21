@@ -1,51 +1,62 @@
-@media and (min-width:1200) {
+@media only screen and (min-device-width: 400px){
     .software {
-        background:url(images/software.png) 0-48px;
+    height: 240px;
+    width: 128px;
+    background:url(software.png) 0 0;
+}
+/*
+(min-width:1200px) {
+    .software {
+        width: 48px;
+        height: 64px;
+        background:url(software.png) 0 0;
     }
 }
-@media and (min-width: 1100) and (max-width:1200) {
+
+(min-width: 1100) and (max-width:1200) {
     .software {
-        background:url(images/software.png) 48-96px;
+        background:url(software.png) 48-96px;
     }
 }
-@media and (min-width 1000) and (max-width: 1100) {
+@media only screen and (min-width 1000) and (max-width: 1100) {
     .software {
-        background:url(images/software.png) 96-144px;
+        background:url(software.png) 96-144px;
     }
 }
 @media and (min-width 900) and (max-width: 1000) {
     .software {
-        background:url(images/software.png) 144-192px;
+        background:url(software.png) 144-192px;
     }
 }
-@media and (min-width 800) and (max-width: 900) {
+@media only screen and (min-width 800) and (max-width: 900) {
     .software {
-        background:url(images/software.png) 192-240px;
+        background:url(software.png) 192-240px;
     }
 }
-@media and (min-width 700) and (max-width: 800) {
+@media only screen and (min-width 700) and (max-width: 800) {
     .software {
-        background:url(images/software.png) 240-284px;
+        background:url(software.png) 240-284px;
     }
 }
-@media and (min-width 600) and (max-width: 700) {
+@media only screen and (min-width 600) and (max-width: 700) {
     .software {
-        background:url(images/software.png) 284-336px;
+        background:url(software.png) 284-336px;
     }
 }
 
-@media and (min-width 500) and (max-width: 600) {
+@media only screen and (min-width 500) and (max-width: 600) {
     .software {
-        background:url(images/software.png) 336-384px;
+        background:url(software.png) 336-384px;
     }
 }
 @media and (min-width 400) and (max-width: 500) {
     .software {
-        background:url(images/software.png) 384-432px;
+        background:url(software.png) 384-432px;
     }
 }
 @media and (max-width: 400) {
     .software {
-        background:url(images/software.png) 432-480px;
+        background:url(software.png) 432-480px;
     }
 }
+*/
