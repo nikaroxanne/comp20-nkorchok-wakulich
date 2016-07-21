@@ -1,62 +1,78 @@
-@media only screen and (min-device-width: 400px){
+@media only screen and (min-device-width:1200px) {
     .software {
-    height: 240px;
+        width: 128px;
+        height: 240px;
+        background:url(images/software.png) 0px 0px;
+    }
+}
+
+@media only screen and (min-device-width: 1100px) and (max-device-width:1200px) {
+    .software {
+        width: 128px;
+        height: 240px;
+        background:url(images/software.png) -128px 0px;
+    }
+}
+
+@media only screen and (min-device-width: 1000px) and (max-device-width: 1100px) {
+    .software {
+        width: 128px;
+        height: 240px;
+        background:url(images/software.png) 0px 0px;
+    }
+}
+
+@media only screen and (min-device-width: 900px) and (max-device-width: 1000px) {
+    .software {
+        width: 128px;
+        height: 240px;
+        background:url(images/software.png) 0px 0px;
+    }
+}
+
+@media only screen and (min-device-width: 800px) and (max-device-width: 900px) {
+    .software {
+        width: 128px;
+        height: 240px;
+        background:url(images/software.png) 0px 0px;
+    }
+}
+
+@media only screen and (min-device-width: 700px) and (max-device-width: 800px) {
+    .software {
+        width: 128px;
+        height: 240px;
+        background:url(images/software.png) 0px 0px;
+    }
+}
+
+@media only screen and (min-device-width: 600px) and (max-device-width: 700px) {
+    .software {
     width: 128px;
-    background:url(software.png) 0 0;
-}
-/*
-(min-width:1200px) {
-    .software {
-        width: 48px;
-        height: 64px;
-        background:url(software.png) 0 0;
+    height: 240px;
+    background:url(images/software.png) -512px -240px;
     }
 }
 
-(min-width: 1100) and (max-width:1200) {
-    .software {
-        background:url(software.png) 48-96px;
-    }
+@media only screen and (min-device-width: 500px) and (max-device-width: 600px) {
 }
-@media only screen and (min-width 1000) and (max-width: 1100) {
     .software {
-        background:url(software.png) 96-144px;
+    width: 128px;
+    height: 240px;
+    background:url(images/software.png) -128px -240px;
     }
-}
-@media and (min-width 900) and (max-width: 1000) {
-    .software {
-        background:url(software.png) 144-192px;
-    }
-}
-@media only screen and (min-width 800) and (max-width: 900) {
-    .software {
-        background:url(software.png) 192-240px;
-    }
-}
-@media only screen and (min-width 700) and (max-width: 800) {
-    .software {
-        background:url(software.png) 240-284px;
-    }
-}
-@media only screen and (min-width 600) and (max-width: 700) {
-    .software {
-        background:url(software.png) 284-336px;
-    }
-}
 
-@media only screen and (min-width 500) and (max-width: 600) {
+@media only screen and (min-device-width: 400px) and (max-device-width: 500px) {
     .software {
-        background:url(software.png) 336-384px;
+    width: 128px;
+    height: 240px;
+    background:url(images/software.png) -480px -240px;
     }
 }
-@media and (min-width 400) and (max-width: 500) {
+@media only screen and (max-device-width: 400px){
     .software {
-        background:url(software.png) 384-432px;
+    width: 128px;
+    height: 240px;
+    background:url(images/software.png) -512px -240px;
     }
 }
-@media and (max-width: 400) {
-    .software {
-        background:url(software.png) 432-480px;
-    }
-}
-*/
