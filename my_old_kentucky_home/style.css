@@ -2,4 +2,12 @@ body{
     color: #808080;
     border-style: outset;
     border-width: 5px;
+    text-align: center;
+    text-font: Helvetica;
 }
+#title {
+color:
+text-align: center;
+font size: 16px;
+}
+
