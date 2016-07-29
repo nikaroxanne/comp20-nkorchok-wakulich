@@ -9,13 +9,10 @@
     function parse() {
       jsonData = '[{"id":1,"content":"Do you really want to hurt me?","username":"Boy"},{"id":2,"content":"Do you really want to make me cry?","username":"George"}]';
       var parsed = JSON.parse(jsonData);
-      for(var key in jsonData){
-          if(jsonData.hasOwnProperty(key))
-          var 1 = parsed[key].content;
-          var 2 = parsed[key].username;
+      for(var i=0; i<jsonData.length; i++ ){
+          parsed = jsonData[i];
       }
-          document.getElementbyId("messages").innerHTML = message1;
-          document.getElementbyId("messages").innerHTML = message1;
+          document.getElementbyId("messages").innerHTML = parsed;
     }
       // Your code here......
 
