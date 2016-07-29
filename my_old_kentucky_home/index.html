@@ -13,15 +13,15 @@
 <video src="https://www.cs.tufts.edu/comp/20/my_old_kentucky_home.mp4" id="music_video" controls></video>
 <div id="lyrics"></div>
 
-<script>
+<script type="text/javascript">
         var video = document.getElementById("music_video");
         var caption = document.getElementById("lyrics");
-        var image1 = document.getElementById("image1");
-        var image2 = document.getElementById("image2");
-        var timer = document.getElementById("timer");
+        //var image1 = document.getElementById("image1");
+        //var image2 = document.getElementById("image2");
+        var timer = video.currentTime;
         video.addEventListener("timeupdate", function() {
 		console.log("Welcome to the Kentucky Derby!");
-	//	timer.innerHTML = video.currentTime;
+		timer.innerHTML = video.currentTime;
 		
 		if (video.currentTime < 8) {
 			caption.innerHTML ="<h3>My Old Kentucky Home...</h3>";
@@ -74,10 +74,8 @@
 		else {
 			caption.innerHTML ="";
 		}
+                }, false);
 
-video.AddEventListener(timeupdate", function() {
-
-        }
 */
     // Complete this section and create a CSS file named style.css
 </script>

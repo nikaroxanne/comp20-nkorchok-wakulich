@@ -8,11 +8,17 @@
   <script>
     function parse() {
       jsonData = '[{"id":1,"content":"Do you really want to hurt me?","username":"Boy"},{"id":2,"content":"Do you really want to make me cry?","username":"George"}]';
-      parsed = JSON.parse(jsonData);
-      console.log(parsed[0]['content']['username']);
-      console.log(parsed[1]['content']['username']);
-      // Your code here......
+      var parsed = JSON.parse(jsonData);
+      for(var key in jsonData){
+          if(jsonData.hasOwnProperty(key))
+          var 1 = parsed[key].content;
+          var 2 = parsed[key].username;
+      }
+          document.getElementbyId("messages").innerHTML = message1;
+          document.getElementbyId("messages").innerHTML = message1;
     }
+      // Your code here......
+
   </script>
 </head>
 
