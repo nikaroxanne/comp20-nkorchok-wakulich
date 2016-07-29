@@ -14,11 +14,12 @@
 <div id="lyrics"></div>
 
 <script type="text/javascript">
+
         var video = document.getElementById("music_video");
         var caption = document.getElementById("lyrics");
         //var image1 = document.getElementById("image1");
         //var image2 = document.getElementById("image2");
-        var timer = video.currentTime;
+        var timer = document.getElementById("music video").currentTime;
         video.addEventListener("timeupdate", function() {
 		console.log("Welcome to the Kentucky Derby!");
 		timer.innerHTML = video.currentTime;
@@ -73,10 +74,10 @@
 		}
 		else {
 			caption.innerHTML ="";
-		}
-                }, false);
+		}, false);
+                }
 
-*/
+
     // Complete this section and create a CSS file named style.css
 </script>
 </body>
