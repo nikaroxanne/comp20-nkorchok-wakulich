@@ -19,7 +19,7 @@ var redLineAlewifeToJFK = [
     ['JFK/UMass', 42.320685, -71.052391, 13]
     ['Broadway',  42.342622, -71.056967, 14]
     ['Kendall/MIT', 42.395428, -71.142483, 15]
-]
+];
 
 var redLineJFKToBraintree = [
     ['JFK/UMass', 42.320685, -71.052391, 1]
@@ -28,7 +28,7 @@ var redLineJFKToBraintree = [
     ['Quincy Center', 42.251809, -71.005409, 4]
     ['Quincy Adams', 42.233391,-71.007153, 5]
     ['Braintree', 42.2078543, -71.0011385, 6]
-]
+];
 
 var redLineJFKToAshmont = [
     ['JFK/UMass', 42.320685, -71.052391, 1]
@@ -36,13 +36,13 @@ var redLineJFKToAshmont = [
     ['Fields Corner', 42.300093, -71.061667, 3]
     ['Shawmut',  42.29312583, -71.06573796000001, 4]
     ['Ashmont', 42.284652, -71.06448899999999, 5]
-]
+];
 
 var myOptions = {
         center:redLineCenter,
         zoom: 7,
         mapTypeId:google.maps.MapTypeId.ROADMAP
-}
+};
 
 function init() {
     var map = new.google.maps.Map(document.getElementById('map'), myOptions); {
@@ -52,9 +52,9 @@ function init() {
 var image = 'mbta.gif';
 
 var redCenterMarker = new google.maps.Marker({
-    position: redLineCenter;
-    map: map;
-    icon: image;
+    position: redLineCenter,
+    map: map,
+    icon: image,
     title: "South Station"
 });
 redCenterMarker.setMap(map);
