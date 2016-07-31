@@ -8,14 +8,23 @@
   <script>
     function parse() {
       jsonData = '[{"id":1,"content":"Do you really want to hurt me?","username":"Boy"},{"id":2,"content":"Do you really want to make me cry?","username":"George"}]';
-      var parsed = JSON.parse(jsonData);
-      for(var i=0; i<jsonData.length; i++ ){
-          parsed = jsonData[i];
-      }
-          document.getElementbyId("messages").innerHTML = parsed;
-    }
+      //var parsed = JSON.parse(jsonData);
+      //for(var i=0; i<jsonData.length; i++ ){
+     //     parsed = jsonData[i].content + jsonData[i].username;
+     //     console.log(parsed);
+      
+      var obj = JSON.parse(jsonData); 
+      document.getElementById("messages").innerHTML = obj[0].content + "&nbsp" + obj[0].username + "<br>" + obj[1].content + "&nbsp" + obj[1].username;
+  
+    //all of the junk that I didn't end up using
+      //  document.getElementById("messages").innerHTML = obj[1].content;
+//      document.getElementById("messages").innerHTML = obj[0].username;
+  //    document.getElementById("messages").innerHTML = obj[1].username;
+         // jsonData.username;
+//          document.getElementById("messages").innerHTML = jsonData[1].content + jsonData[1].username;
+      //  console.log(jsonData);
+}
       // Your code here......
-
   </script>
 </head>
 
