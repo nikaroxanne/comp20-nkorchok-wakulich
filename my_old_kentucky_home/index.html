@@ -20,7 +20,8 @@
         //var image1 = document.getElementById("image1");
         //var image2 = document.getElementById("image2");
         var timer = document.getElementById("music video").currentTime;
-        video.addEventListener("timeupdate", function() {
+        video.addEventListener("timeupdate", function(){captions()}, false); 
+        function captions() {
 		console.log("Welcome to the Kentucky Derby!");
 		timer.innerHTML = video.currentTime;
 		
@@ -57,25 +58,25 @@
 		else if (video.currentTime > 64 && video.currentTime < 69) {
                         caption.innerHTML = "<h3>Weep no more my lady</h3>";
 		}
-		else if (video.currentTime > 69 && video.currentTime < 64) {
+		else if (video.currentTime > 69 && video.currentTime < 75) {
                         caption.innerHTML = "<h3>Oh weep no more today;</h3>";
 		}
-		else if (video.currentTime > 61 && video.currentTime < 64) {
+		else if (video.currentTime > 75 && video.currentTime < 80) {
                         caption.innerHTML = "<h3>We will sing one song</h3>";
                 }
-		else if (video.currentTime > 61 && video.currentTime < 64) {
+		else if (video.currentTime > 80 && video.currentTime < 81) {
                         caption.innerHTML = "<h3>For My Old Kentucky Home</h3>";
                 }
-		else if (video.currentTime > 61 && video.currentTime < 64) {
+		else if (video.currentTime > 81 && video.currentTime < 84) {
                         caption.innerHTML = "<h3>For My Old Kentucky Home, far away</h3>";
                 }
-		else if (video.currentTime > 52) {
+		else if (video.currentTime > 84) {
                         caption.innerHTML = '<p><img src ="cats2.jpg" alt="Image" /<>/p>';
 		}
 		else {
 			caption.innerHTML ="";
-		}, false);
-                }
+		}
+        }
 
 
     // Complete this section and create a CSS file named style.css
