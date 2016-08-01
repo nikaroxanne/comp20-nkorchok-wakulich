@@ -1,22 +1,22 @@
 function init(){
-    
+    console.log("Hello");    
     var redLineCenter = new google.maps.LatLng(42.352271, -71.05524200000001);
     var redLineAlewifeToJFK = [
-        ['Alewife', 42.395428, -71.142483, 1]
-        ['Davis',  42.39674, -71.121815, 2]
-        ['Porter Square', 42.3884, -71.11914899999999,3]
-        ['Harvard Square',  42.373362, -71.118956, 4]
-        ['Central Square', 42.365486, -71.103802, 5]
-        ['Kendall/MIT', 42.395428, -71.142483, 6]
-        ['Charles/MGH', 42.361166, -71.070628, 7]
-        ['Park Street', 42.35639457, -71.0624242, 8]
-        ['Downtown Crossing', 42.355518, -71.060225, 9]
-        ['South Station', 42.352271, -71.05524200000001, 10]
-        ['Broadway',  42.342622, -71.056967, 11]
-        ['Andrew', 42.330154, -71.057655, 12]
-        ['JFK/UMass', 42.320685, -71.052391, 13]
-        ['Broadway',  42.342622, -71.056967, 14]
-        ['Kendall/MIT', 42.395428, -71.142483, 15]
+        ['Alewife', 42.395428, -71.142483, 1],
+        ['Davis',  42.39674, -71.121815, 2],
+        ['Porter Square', 42.3884, -71.11914899999999,3],
+        ['Harvard Square',  42.373362, -71.118956, 4],
+        ['Central Square', 42.365486, -71.103802, 5],
+        ['Kendall/MIT', 42.395428, -71.142483, 6],
+        ['Charles/MGH', 42.361166, -71.070628, 7],
+        ['Park Street', 42.35639457, -71.0624242, 8],
+        ['Downtown Crossing', 42.355518, -71.060225, 9],
+        ['South Station', 42.352271, -71.05524200000001, 10],
+        ['Broadway',  42.342622, -71.056967, 11],
+        ['Andrew', 42.330154, -71.057655, 12],
+        ['JFK/UMass', 42.320685, -71.052391, 13],
+        ['Broadway',  42.342622, -71.056967, 14],
+        ['Kendall/MIT', 42.395428, -71.142483, 15],
     ];
 
     var redLineJFKToBraintree = [
@@ -58,7 +58,7 @@ function init(){
     function setMarkersredLine(map) {
         for(var i =0; i<redLineAlewifeToJFK.length; i++){
             //redLineAlewifeToJFK[i];
-            marker = new.google.maps.Marker({
+            var marker = new google.maps.Marker({
                 position: {lat: redLineAlewifeToJFKi[i][1], lng: redLineAleWifeToJFK[i][2]},
                 map: map,
                 icon: image,
@@ -99,4 +99,3 @@ function init(){
     */
 
 google.maps.event.addDomListener(window,'load',init);
-}
