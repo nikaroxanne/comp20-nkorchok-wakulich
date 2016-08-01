@@ -1,8 +1,6 @@
-<script src="https://maps.google.com/maps/api/js?sensor=true"></script>
-<script type="text/javascript">
 function init(){
     
-    var redLineCenter = new.google.maps.LatLng(42.352271, -71.05524200000001);
+    var redLineCenter = new google.maps.LatLng(42.352271, -71.05524200000001);
     var redLineAlewifeToJFK = [
         ['Alewife', 42.395428, -71.142483, 1]
         ['Davis',  42.39674, -71.121815, 2]
@@ -45,9 +43,9 @@ function init(){
     };
 
 //function init() {
-    var map = new.google.maps.Map(document.getElementById('map'), myOptions); {
+    var map = new google.maps.Map(document.getElementById("map"), myOptions);
 
-    var image = 'mbta.gif';
+    var image = "mbta.gif";
 
     var redCenterMarker = new google.maps.Marker({
         position: redLineCenter,
@@ -71,10 +69,6 @@ function init(){
         }
     }
     
-
-    //google.maps.event.addDomListener(window,'load',initialize);
-
-
     var redPolyline1 = new google.maps.Polyline({
         path:redLineAlewifeToJFK,
         geodesic: true,
@@ -83,7 +77,6 @@ function init(){
         strokeWeight: 2,
     });
     redPolyline1.setMap(map);
-    }
 }
     /*
     var redPolyline2 = new google.maps.Polyline({
@@ -104,4 +97,6 @@ function init(){
     });
     redPolyline3.setMap(map);
     */
-</script>
+
+google.maps.event.addDomListener(window,'load',init);
+}
