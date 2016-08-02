@@ -1,5 +1,4 @@
 function init(){
-    console.log("Hello");    
     var redLineCenter = new google.maps.LatLng(42.352271, -71.05524200000001);
     var redLineAlewifeToJFK = [
         {stationName: 'Alewife', lat: 42.395428, lng: -71.1424831},
@@ -9,7 +8,7 @@ function init(){
         {stationName:'Central Square', lat:42.365486, lng:-71.103802},
         {stationName:'Kendall/MIT', lat:42.395428, lng:-71.142483},
         {stationName:'Charles/MGH', lat:42.361166, lng:-71.070628},
-        {stationName:'Park Street', lat:42.35639457, lng:71.0624242},
+        {stationName:'Park Street', lat:42.35639457, lng:-71.0624242},
         {stationName:'Downtown Crossing', lat:42.355518, lng:-71.060225},
         {stationName:'South Station', lat:42.352271, lng:-71.05524200000001},
         {stationName:'Broadway', lat:42.342622, lng: -71.056967},
@@ -31,7 +30,7 @@ function init(){
     var redLineJFKToAshmont = [
         {stationName:'JFK_UMass', lat:42.320685, lng:-71.052391},
         {stationName:'Savin Hill', lat:42.31129, lng:-71.053331},
-        {stationName:'Fields Corner',lat:42.300093, lng:-71.061667},
+        {stationName:'Fields Corner', lat:42.300093, lng:-71.061667},
         {stationName:'Shawmut', lat:42.29312583, lng:-71.06573796000001},
         {stationName:'Ashmont', lat:42.284652, lng:-71.06448899999999}
     ];
@@ -55,12 +54,11 @@ function init(){
     });
     redCenterMarker.setMap(map);
 
-    //function setMarkersredLine1() {
+    //sets markers from Alewife to JFK
 
     for(var i =0; i<redLineAlewifeToJFK.length; i++){
         var position = new google.maps.LatLng(redLineAlewifeToJFK[i].lat, redLineAlewifeToJFK[i].lng);
         var title = redLineAlewifeToJFK[i].stationName;
-        //redLineAlewifeToJFK[i];
         var marker = new google.maps.Marker({
                 position: position,
                 map: map,
@@ -68,25 +66,41 @@ function init(){
                 title: title
         });
     }
-    var redPolyLinePath1;
-    for (var j=0; j<redLineAlewifeToJFK.length; j++){
-            var redPolyLinePath1 = new google.maps.LatLng(redLineAlewifeToJFK[j].lat,redLineAlewifeToJFK[j].lng);
-    }
+    //sets polypath from Alewife to JFK
+    
+    /*
+     var redPolyLinePath1 = [
+        new google.maps.LatLng(redLineAlewifeToJFK[0].lat,redLineAlewifeToJFK[0].lng),
+        new google.maps.LatLng(redLineAlewifeToJFK[1].lat,redLineAlewifeToJFK[1].lng),
+        new google.maps.LatLng(redLineAlewifeToJFK[2].lat,redLineAlewifeToJFK[2].lng),
+        new google.maps.LatLng(redLineAlewifeToJFK[3].lat,redLineAlewifeToJFK[3].lng),
+        new google.maps.LatLng(redLineAlewifeToJFK[4].lat,redLineAlewifeToJFK[4].lng),
+        new google.maps.LatLng(redLineAlewifeToJFK[5].lat,redLineAlewifeToJFK[5].lng),
+        new google.maps.LatLng(redLineAlewifeToJFK[6].lat,redLineAlewifeToJFK[6].lng),
+        new google.maps.LatLng(redLineAlewifeToJFK[7].lat,redLineAlewifeToJFK[7].lng),
+        new google.maps.LatLng(redLineAlewifeToJFK[8].lat,redLineAlewifeToJFK[8].lng),
+        new google.maps.LatLng(redLineAlewifeToJFK[9].lat,redLineAlewifeToJFK[9].lng),
+        new google.maps.LatLng(redLineAlewifeToJFK[10].lat,redLineAlewifeToJFK[10].lng),
+        new google.maps.LatLng(redLineAlewifeToJFK[11].lat,redLineAlewifeToJFK[11].lng)
+    ];
+    */
+
+        //for (var j=0; j<redLineAlewifeToJFK.length; j++){
+      //      var redPolyLinePath1 = new google.maps.LatLng(redLineAlewifeToJFK[j].lat,redLineAlewifeToJFK[j].lng);}
+
     var redPolyline1 = new google.maps.Polyline({
-            path:redPolyLinePath1,
-            geodesic: true,
+            path:redLineAlewifeToJFK,
+           // geodesic: true,
             strokeColor: '#FF0000',
             strokeOpacity: 1.0,
             strokeWeight: 2,
             });
     redPolyline1.setMap(map);
     
-
-
-    for(var j =0; i<redLineJFKToBraintree.length; i++){
+    //sets markers from JFK to Braintree
+    for(var j =0; j<redLineJFKToBraintree.length; j++){
         var position = new google.maps.LatLng(redLineJFKToBraintree[j].lat, redLineJFKToBraintree[j].lng);
-        var title = redLineJFKToBraintree[i].stationName;
-        //redLineAlewifeToJFK[i];
+        var title = redLineJFKToBraintree[j].stationName;
         var marker = new google.maps.Marker({
                 position: position,
                 map: map,
@@ -94,7 +108,7 @@ function init(){
                 title: title
         });
     }
-    
+    //sets Polyline from JFK to Braintree
     var redPolyline2 = new google.maps.Polyline({
         path:redLineJFKToBraintree,
         geodesic: true,
@@ -104,6 +118,7 @@ function init(){
     });
     redPolyline2.setMap(map);
 
+    //sets markers from JFK to Ashmont
     for(var k =0; k<redLineJFKToAshmont.length; k++){
         var position = new google.maps.LatLng(redLineJFKToAshmont[k].lat, redLineJFKToAshmont[k].lng);
         var title = redLineJFKToAshmont[k].stationName;
@@ -115,7 +130,7 @@ function init(){
                 title: title
         });
     }
-
+    //sets Polyline from JFK to Ashmont
     var redPolyline3 = new google.maps.Polyline({
         path:redLineJFKToAshmont,
         geodesic: true,
