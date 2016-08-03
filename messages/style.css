@@ -1,0 +1,13 @@
+#messages {
+    background-color: #7FFFD4;
+    border-style: double;
+    border-width: 5px;
+    margin: 5px;
+    padding: 5px;
+}
+#result {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16px;
+    color: black;
+}
+
