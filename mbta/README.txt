@@ -1,13 +1,15 @@
 Nika Korchok Wakulich
-nwakul01
-Lab8
-Comp20
-July 31, 2016
+lab 10
+Comp 20
+August 3, 2016
 
-1. Elements correctly implemented: My image for the icon loads.
-Elements not correctly implemented: I cannot get the map to load even though I wrote all the JS code for the Polyline, the markers and setting up the initialize function of the map.
+1. Elements correctly implemented: I believe that my function to calculate the Haversine formula works correctly.
+Elements not correctly implemented: My geolocator does not work for some reason, though it may be an issue with not loading on my browser.
 
-2. I did not collaborate with anyone on this assignment. I used the guides, on the W3Schools website and the Google developer website, for information on using the Google Maps API.
+2. I used the following websites as guides for writing the Haversine formula, especially to use it to calculate the shortest distance from something. I referenced posts on these forums:
+http://stackoverflow.com/questions/14560999/using-the-haversine-formula-in-javascript
+http://stackoverflow.com/questions/4057665/google-maps-api-v3-find-nearest-markers
 
-3. I spent about 10 hours on this assignment.
 
+
+3. I spent approximately 15 hours on this assignment.

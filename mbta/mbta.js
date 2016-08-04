@@ -6,9 +6,9 @@ var map;
 var marker;
 var infowindow = new google.maps.InfoWindow();
 
-function init(){
-    var redLineCenter = new google.maps.LatLng(42.352271, -71.05524200000001);
-    var redLineAlewifeToJFK = [
+
+var redLineCenter = new google.maps.LatLng(42.352271, -71.05524200000001);
+var redLineAlewifeToJFK = [
         {stationName: 'Alewife', lat: 42.395428, lng: -71.1424831},
         {stationName:'Davis', lat:42.39674, lng:-71.121815},
         {stationName:'Porter Square', lat:42.3884,  lng:-71.11914899999999},
@@ -25,31 +25,34 @@ function init(){
     ];
 
     
-    var redLineJFKToBraintree = [
+var redLineJFKToBraintree = [
         {stationName:'JFK_UMass', lat:42.320685, lng:-71.052391},
         {stationName:'North Quincy', lat:42.275275, lng:-71.029583},
         {stationName:'Wollaston', lat:42.2665139, lng:-71.0203369},
         {stationName:'Quincy Center', lat:42.251809, lng:-71.005409},
         {stationName:'Quincy Adams', lat:42.233391,lng:-71.007153},
         {stationName:'Braintree', lat:42.2078543, lng:-71.0011385}
-    ];
+];
 
     
-    var redLineJFKToAshmont = [
+var redLineJFKToAshmont = [
         {stationName:'JFK_UMass', lat:42.320685, lng:-71.052391},
         {stationName:'Savin Hill', lat:42.31129, lng:-71.053331},
         {stationName:'Fields Corner', lat:42.300093, lng:-71.061667},
         {stationName:'Shawmut', lat:42.29312583, lng:-71.06573796000001},
         {stationName:'Ashmont', lat:42.284652, lng:-71.06448899999999}
-    ];
+];
+    
+var redLineStations = redLineAlewifeToJFK.concat(redLineJFKToBraintree, redLineJFKToAshmont);
 
-    var myOptions = {
-        center:redLineCenter,
-        zoom: 7,
-        mapTypeId:google.maps.MapTypeId.ROADMAP
-    };
 
-//function init() {
+var myOptions = {
+    center:redLineCenter,
+    zoom: 7,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+};
+
+function init(){
     var map = new google.maps.Map(document.getElementById("map"), myOptions);
 
     var image = "redline.png";
@@ -98,7 +101,7 @@ function init(){
 
     var redPolyline1 = new google.maps.Polyline({
             path:redLineAlewifeToJFK,
-            geodesic: true,
+            //geodesic: true,
             strokeColor: '#FF0000',
             strokeOpacity: 1.0,
             strokeWeight: 2,
@@ -174,6 +177,7 @@ function findMe(){
                 userLat = position.coords.latitude,
                 userLng = position.coords.longitude,
                 renderMap();
+                closestDistance();
             });
     } else {
         alert("Geolocation service did not work." + "<br>" + "Please check your browser and verify that you are using one that supports geolocation.");
@@ -197,68 +201,28 @@ function renderMap(){
     });
 }
 
+function closestDistance(userLat,usrLng){
+    var pi = Math.pi;
+    var R = 6371;
+    var distances = [];
+    var closest = -1;
 
-
-
-/*            infowindow.setPosition(pos);
-  //          infowindow.setContent('Found you!');
-    //        map.setCenter(pos);
-      //  } function(){
-        //    handleLocationError(true, infowindow, map.getCenter());
-        //});
-    } else {
-        handleLocationError(false,infowindow, map.getCenter());
+    for(var i=0; i<redLineStations.length;i++) {
+        var stationLat = redLineStations[i].lat;
+        var stationLng = redLineStations[i].lng;
+        var x1 = stationLat - userLat;
+        var dLat = x1 * Math.PI / 180;
+        var x2= stationLng - userLng;
+        var dLng = x2 * Math.PI / 180;
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(userLat*Math.PI/180) * Math.cos(stationLat*Math.PI/180) * Math.sin(dLng/2) * Math.sin(dLng/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c;
+        distances[i] =d;
+        if (closest == -1 || d <distances[closest]) {
+            closest = i;
+        }
     }
+    alert(redLineStations[closest]);
 }
-/*
-function handleLocationError(browserHasGeolocation, infowindow, pos){
-    infowindow.setPosition(pos);
-    infowindow.setContent(browserHasGeolocation ?
-            'Geolocation service did not work.':
-            'Please check your browser and verify that you are using one that supports geolocation.');
-}
-*/
-
-/*
-google.maps.event.addListener(marker, 'click',function) {
-    infowindow.setContent(marker.title);
-    infowindow.open(map, marker)
-});
-
-*/
-
-
-
-  //      google.maps.addEventListener(marker,'click', (function(marker,i))
-//            infowindow.open(map,marker)
-    
-    /*
-    for (var j=0;j<redLineJFKToAshmont.length; i++){
-        marker = new google.maps.Marker({ 
-            position: new google.maps.LatLng(redLineJFKToAshmont[i].lat, redLineJFKToAshmont[i].lng),
-            map : map,
-            icon: image
-        }) 
-    }
-    */
-    /*
-    var redPolyline2 = new google.maps.Polyline({
-        path:redLineJFKToBraintree,
-        geodesic: true,
-        strokeColor: '#FF0000',
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-    });
-    redPolyline2.setMap(map);
- 
-    var redPolyline3 = new google.maps.Polyline({
-        path:redLineJFKToAshmont,
-        geodesic: true,
-        strokeColor: '#FF0000',
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-    });
-    redPolyline3.setMap(map);
-    */
 
 //google.maps.event.addDomListener(window,'load',initialize);
