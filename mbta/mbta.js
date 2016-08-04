@@ -1,3 +1,11 @@
+var userLat = 0;
+var userLng = 0;
+var request = new XMLHttpRequest();
+var user = new google.maps.LatLng(userLat, userLng);
+var map;
+var marker;
+var infowindow = new google.maps.InfoWindow();
+
 function init(){
     var redLineCenter = new google.maps.LatLng(42.352271, -71.05524200000001);
     var redLineAlewifeToJFK = [
@@ -90,7 +98,7 @@ function init(){
 
     var redPolyline1 = new google.maps.Polyline({
             path:redLineAlewifeToJFK,
-           // geodesic: true,
+            geodesic: true,
             strokeColor: '#FF0000',
             strokeOpacity: 1.0,
             strokeWeight: 2,
@@ -139,7 +147,87 @@ function init(){
         strokeWeight: 2,
     });
     redPolyline3.setMap(map);
+    findMe();
 }
+/*
+request = newXMLHTTPRequest();
+request.open("GET", " https://powerful-depths-66091.herokuapp.com/redline.json");
+ready.onreadystatechange = callme;
+request.send(null);
+function callme(){
+    if(request.readyState == 4 && request.status == 200){
+        result = "";
+        raw = request.responseText;
+        redLineData = JSON.parse(raw);
+        elem = getElementById("list");
+        for (i=0; i <theScheduleData["TripList"]["Trips"].length; i++){
+            result += "The Next Scheduled Train to" + " " + ["TripList"]["Trips"][i]["Predictions"][0]["Stops"] + ", " + redLineData["TripList"]["Trips"][i]["Destination"] +  "will arrive in " + redLineData["TripList"]["Trips"][i]["Predictions"][0]["Seconds"] + " seconds</p>";
+        } elem.innerHTML = result;
+    } else if (request.readyState == 4 && request.status ==200) {
+        document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
+    }
+};
+*/
+function findMe(){
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position) {
+                userLat = position.coords.latitude,
+                userLng = position.coords.longitude,
+                renderMap();
+            });
+    } else {
+        alert("Geolocation service did not work." + "<br>" + "Please check your browser and verify that you are using one that supports geolocation.");
+    }
+}
+
+var markerImage = "whereAreYou.png";
+function renderMap(){
+    user = new google.maps.LatLng(userLat, userLng);
+    //map.panTo(user);
+    marker = new google.maps.Marker({
+        position: user,
+        title: 'You are here!',
+        icon: markerImage
+    });
+    marker.setMap(map);
+
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.setContent(marker.title),
+        infowindow.open(map, marker)
+    });
+}
+
+
+
+
+/*            infowindow.setPosition(pos);
+  //          infowindow.setContent('Found you!');
+    //        map.setCenter(pos);
+      //  } function(){
+        //    handleLocationError(true, infowindow, map.getCenter());
+        //});
+    } else {
+        handleLocationError(false,infowindow, map.getCenter());
+    }
+}
+/*
+function handleLocationError(browserHasGeolocation, infowindow, pos){
+    infowindow.setPosition(pos);
+    infowindow.setContent(browserHasGeolocation ?
+            'Geolocation service did not work.':
+            'Please check your browser and verify that you are using one that supports geolocation.');
+}
+*/
+
+/*
+google.maps.event.addListener(marker, 'click',function) {
+    infowindow.setContent(marker.title);
+    infowindow.open(map, marker)
+});
+
+*/
+
+
 
   //      google.maps.addEventListener(marker,'click', (function(marker,i))
 //            infowindow.open(map,marker)
