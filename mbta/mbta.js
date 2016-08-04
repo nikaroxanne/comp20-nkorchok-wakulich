@@ -4,7 +4,7 @@ var request = new XMLHttpRequest();
 var user = new google.maps.LatLng(userLat, userLng);
 var map;
 var marker;
-var infowindow = new google.maps.InfoWindow();
+var infowindow = new google.maps.InfoWindow({map:map});
 
 
 var redLineCenter = new google.maps.LatLng(42.352271, -71.05524200000001);
@@ -64,9 +64,18 @@ function init(){
         title: "South Station"
     });
     redCenterMarker.setMap(map);
-
+/*
+    for(var i =0; i<redLineStations.length; i++){
+        var position = new google.maps.LatLng(redLineStations[i].lat, redLineStations[i].lng);
+        var title = redLineStations[i].stationName;
+        var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                icon: image,
+                title: title
+        });
     //sets markers from Alewife to JFK
-
+*/
     for(var i =0; i<redLineAlewifeToJFK.length; i++){
         var position = new google.maps.LatLng(redLineAlewifeToJFK[i].lat, redLineAlewifeToJFK[i].lng);
         var title = redLineAlewifeToJFK[i].stationName;
@@ -78,7 +87,6 @@ function init(){
         });
     }
     //sets polypath from Alewife to JFK
-    
     /*
      var redPolyLinePath1 = [
         new google.maps.LatLng(redLineAlewifeToJFK[0].lat,redLineAlewifeToJFK[0].lng),
@@ -152,25 +160,25 @@ function init(){
     redPolyline3.setMap(map);
     findMe();
 }
-/*
-request = newXMLHTTPRequest();
+
+request = new XMLHttpRequest();
 request.open("GET", " https://powerful-depths-66091.herokuapp.com/redline.json");
-ready.onreadystatechange = callme;
+request.onreadystatechange = schedule;
 request.send(null);
-function callme(){
+function schedule(){
     if(request.readyState == 4 && request.status == 200){
         result = "";
         raw = request.responseText;
         redLineData = JSON.parse(raw);
-        elem = getElementById("list");
-        for (i=0; i <theScheduleData["TripList"]["Trips"].length; i++){
-            result += "The Next Scheduled Train to" + " " + ["TripList"]["Trips"][i]["Predictions"][0]["Stops"] + ", " + redLineData["TripList"]["Trips"][i]["Destination"] +  "will arrive in " + redLineData["TripList"]["Trips"][i]["Predictions"][0]["Seconds"] + " seconds</p>";
-        } elem.innerHTML = result;
+       // elem = getElementById("list");
+        for (i=0; i < redLineData["TripList"]["Trips"].length; i++){
+            result += "The Next Scheduled Train to" + " " + ["TripList"]["Trips"][i]["Predictions"][i]["Stops"] + ", " + redLineData["TripList"]["Trips"][i]["Destination"] +  "will arrive in " + redLineData["TripList"]["Trips"][i]["Predictions"][i]["Seconds"] + " seconds</p>";
+        }
     } else if (request.readyState == 4 && request.status ==200) {
         document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
     }
 };
-*/
+
 function findMe(){
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(function(position) {

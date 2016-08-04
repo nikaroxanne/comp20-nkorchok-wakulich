@@ -10,6 +10,6 @@ Elements not correctly implemented: My geolocator does not work for some reason,
 http://stackoverflow.com/questions/14560999/using-the-haversine-formula-in-javascript
 http://stackoverflow.com/questions/4057665/google-maps-api-v3-find-nearest-markers
 
-
+I used the redline.html file, from the WebProgramming repo on the class Github, as a template for how to approach parsing the JSON data for this problem so I am citing that as a reference.
 
 3. I spent approximately 15 hours on this assignment.
