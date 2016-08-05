@@ -8,9 +8,9 @@ var infowindow = new google.maps.InfoWindow({map:map});
 
 
 var redLineCenter = new google.maps.LatLng(42.352271, -71.05524200000001);
-
+/*
 var redLineAlewifeToJFK = [
-        {lat: 42.395428, lng: -71.1424831},
+        {lat: 42.395428, lng: -71.142483},
         {lat:42.39674, lng:-71.121815},
         {lat:42.3884,  lng:-71.11914899999999},
         {lat: 42.373362, lng:-71.118956},
@@ -24,14 +24,14 @@ var redLineAlewifeToJFK = [
         {lat:42.330154, lng:-71.057655},
         {lat:42.320685, lng:-71.052391}
     ];
-/*
+*/
 var redLineAlewifeToJFK = [
-        {stationName: 'Alewife', lat: 42.395428, lng: -71.1424831},
+        {stationName: 'Alewife', lat: 42.395428, lng: -71.142483},
         {stationName:'Davis', lat:42.39674, lng:-71.121815},
         {stationName:'Porter Square', lat:42.3884,  lng:-71.11914899999999},
         {stationName:'Harvard Square', lat: 42.373362, lng:-71.118956},
         {stationName:'Central Square', lat:42.365486, lng:-71.103802},
-        {stationName:'Kendall/MIT', lat:42.395428, lng:-71.142483},
+        {stationName:'Kendall/MIT', lat:42.36249079, lng:-71.08617653},
         {stationName:'Charles/MGH', lat:42.361166, lng:-71.070628},
         {stationName:'Park Street', lat:42.35639457, lng:-71.0624242},
         {stationName:'Downtown Crossing', lat:42.355518, lng:-71.060225},
@@ -40,7 +40,7 @@ var redLineAlewifeToJFK = [
         {stationName: 'Andrew', lat:42.330154, lng:-71.057655},
         {stationName:'JFK/UMass',  lat:42.320685, lng:-71.052391}
     ];
-*/
+
     
 var redLineJFKToBraintree = [
         {stationName:'JFK_UMass', lat:42.320685, lng:-71.052391},
