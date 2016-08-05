@@ -1,6 +1,6 @@
 //var userLat = 42.406510;
 //var userLng = -71.119352;
-//var request = new XMLHttpRequest();
+var request = new XMLHttpRequest();
 //var user = new google.maps.LatLng(userLat, userLng);
 var map;
 var marker;
@@ -76,20 +76,7 @@ function init(){
                 title: title
         });
     }
-    //sets markers from Alewife to JFK
 
-    /*
-    for(var i =0; i<redLineAlewifeToJFK.length; i++){
-        var position = new google.maps.LatLng(redLineAlewifeToJFK[i].lat, redLineAlewifeToJFK[i].lng);
-        var title = redLineAlewifeToJFK[i].stationName;
-        var marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                icon: image,
-                title: title
-        });
-    }
-*/
     var redPolyline1 = new google.maps.Polyline({
             path:redLineAlewifeToJFK,
             //geodesic: true,
@@ -98,20 +85,7 @@ function init(){
             strokeWeight: 2,
             });
     redPolyline1.setMap(map);
- /*   
-    //sets markers from JFK to Braintree
-    for(var j =0; j<redLineJFKToBraintree.length; j++){
-        var position = new google.maps.LatLng(redLineJFKToBraintree[j].lat, redLineJFKToBraintree[j].lng);
-        var title = redLineJFKToBraintree[j].stationName;
-        var marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                icon: image,
-                title: title
-        });
-    }
 
-  */  
     //sets Polyline from JFK to Braintree
     var redPolyline2 = new google.maps.Polyline({
         path:redLineJFKToBraintree,
@@ -121,21 +95,7 @@ function init(){
         strokeWeight: 2,
     });
     redPolyline2.setMap(map);
-/*
-    //sets markers from JFK to Ashmont
-    for(var k =0; k<redLineJFKToAshmont.length; k++){
-        var position = new google.maps.LatLng(redLineJFKToAshmont[k].lat, redLineJFKToAshmont[k].lng);
-        var title = redLineJFKToAshmont[k].stationName;
-        //redLineAlewifeToJFK[i];
-        var marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                icon: image,
-                title: title
-        });
-    }
 
-*/
     //sets Polyline from JFK to Ashmont
     var redPolyline3 = new google.maps.Polyline({
         path:redLineJFKToAshmont,
@@ -147,6 +107,32 @@ function init(){
     redPolyline3.setMap(map);
     //findMe();
     //showMe();
+    //
+
+var image2 = "whereAreYou.png";
+if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(position)
+            var yourLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+
+var userLat = 42.406510;
+var userLng = -71.119352;
+var position1 = new google.maps.LatLng(userLat, userLng);
+    //map.panTo(position);
+var marker = new google.maps.Marker({
+    position: position1,
+        title: 'Here you are',
+        icon: image2
+});
+marker.setMap(map);
+
+google.maps.event.addListener(marker, 'click', function(){
+    infoWindow.setContent(marker.title);
+    infoWindow.open(map,marker);
+});
 }
 /*
 var image2 = "whereAreYou.png";
