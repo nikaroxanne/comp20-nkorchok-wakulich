@@ -114,24 +114,41 @@ function init(){
                 icon: "geolocationMarker.png"
             });
             marker.setMap(map)
-
-            var mindist = 99999;
-            var closest = 0;
+            /*
+            //var mindist = 99999;
+            var closest = -1;
             var distances = [];
             for( var i =0; i < redLineStations.length; i++) {
                     var dif = closestDistance(userLat, redLineStations[i][1], userLng, redLineStations[i][2]);
-                    if (dif < mindist) {
-                    closest = i;
-                    mindist = dist;
+                    distances.push(dif);
+                    //distances[i] = dif;
+                    var a = Math.min(distances);
+                    if (closest == -1 || dif <distances[closest]){
+                        closest = i;
                     }
             }
-            //nearestStation(position.coords.latitude, position.coords.longitude);
+            */
+            var stationDistances = closestDistance(position.coords.latitude, position.coords.longitude);
+            var mindist = stationDistances.mindist; 
+            var closest = stationDistances.closest;
             var contentString = "" + "The closest Red Line Station to you is:" + redLineStations[closest].stationName + ". It is " + mindist + "kilometers away from you.";
             google.maps.event.addListener(marker, 'click', function(){
                 infoWindow.setContent(contentString);
                 infoWindow.open(map,marker);
             });
-            
+            var stationCoordinates = new google.maps.LatLng(redLineStations[closest].lat, redLineStations[closest].lng);
+            var pathToStation = [
+            {lat:redLineStations[closest].lat, lng:redLineStations[closest].lng},
+            {lat:userLat, lng:userLng}
+            ];
+            var polylineUserToStation = new google.maps.Polyline({
+                path:pathToStation,
+                geodesic: true,
+                strokeColor: '#9932CC',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+            polylineUserToStation.setMap(map);
             //nearestStation(position.coords.latitude, position.coords.longitude);
             //var contentString = "" + "The closest Red Line Station to you is:" + redLineStations[closest].stationName + ". It is " + mindist + "kilometers away from you.";
 
@@ -174,6 +191,7 @@ function userLocation(position){
     nearestStation(position.coords.latitude, positions.coords.longitude);
 }
 */
+/*
 function closestDistance(lat1, lat2, lon1, lon2){
    // var lat1= pos1.latitude;
     //var lat2= pos2.latitude;
@@ -189,31 +207,36 @@ function closestDistance(lat1, lat2, lon1, lon2){
     var d = R * c;
     return d;
 }
-
+*/
+/*
 function toRadians(value){
     return value * Math.PI /180;
 }
-
+*/
+/*
 function nearestStation(userLat, userLng){
-var mindist = 99999;
-var closest = 0;
-var distances = [];
-    for( var i =0; i < redLineStations.length; i++) {
-        var dif = closestDistance(userLat, userLng, redLineStations[i][1], redLineStations[i][2]);
-        if (dif < mindist) {
+    var mindist = 99999;
+    var closest = 0;
+    var distances = [];
+    for(var i =0; i < redLineStations.length; i++) {
+        var dist = closestDistance(userLat, userLng, redLineStations[i][1], redLineStations[i][2]);
+        if (dist < mindist) {
             closest = i;
             mindist = dist;
         }
         
     }
-        return mindist, closest;
+    return {
+        mindist: mindist,
+        closest: closest
+    };
 }
-
+*/
 
 
 //old formula below
-/*
-function closestDistance(userLat,usrLng){
+
+function closestDistance(userLat,userLng){
     var pi = Math.pi;
     var R = 6371;
     var distances = [];
@@ -232,9 +255,13 @@ function closestDistance(userLat,usrLng){
         distances[i] =d;
         if (closest == -1 || d <distances[closest]) {
             closest = i;
+            mindist = d;
         }
     }
-    alert(redLineStations[closest]);
+    return {
+        mindist: mindist,
+        closest: closest
+    };
 }
-*/
+
 //google.maps.event.addDomListener(window,'load',initialize);
