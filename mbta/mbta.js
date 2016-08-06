@@ -55,13 +55,15 @@ request.onreadystatechange = schedule;
 request.send(null);
 function schedule(){
     if(request.readyState == 4 && request.status == 200){
-        var contentStringStations = "";
+        var contentStringStations = [];
         //raw = request.responseText;
         var redLineData = JSON.parse(request.responseText);
         for (i=0; i < redLineData.TripList.Trips.length; i++){
-            contentStringStations += '<div id = "content">' + '<h2 id="firstHeading"> Red Line Schedule for</h1>' + redLineData.TripList.Trips[i].Predictions[0].Stop + ", " + redLineData.TripList.Trips[i].Destination +  " bound, will arrive in " + redLineData.TripList.Trips[i].Predictions[0].Seconds + " seconds" + '</div>';
+            contentStringStations[i] = '<div id = "content">' + '<h2 id="firstHeading"> Red Line Schedule for</h1>' + redLineData.TripList.Trips[i].Predictions[0].Stop + ", " + redLineData.TripList.Trips[i].Destination +  " bound, will arrive in " + redLineData.TripList.Trips[i].Predictions[0].Seconds + " seconds" + '</div>';
         
-        return contentStringStations;
+        console.log(contentStringStations[i]);
+        return contentStringStations[i];
+        //console.log(contentStringStations);
         document.getElementById("list").innerHTML = contentStringStations;
         //return contentStringStations;
         }
@@ -84,24 +86,35 @@ function init(){
         title: "South Station"
     });
     redCenterMarker.setMap(map);
-
+    var markers = [];
+    var infoWindows = [];
+    var contentStrings = [];
+    //var contentString = schedule();
     for(var i =0; i<redLineStations.length; i++){
         var position = new google.maps.LatLng(redLineStations[i].lat, redLineStations[i].lng);
         var title = redLineStations[i].stationName;
-        var marker = new google.maps.Marker({
+        markers[i] = new google.maps.Marker({
                 position: position,
                 map: map,
                 icon: image,
                 title: title
         });
-        var contentString = schedule();
-        var infoWindow = new google.maps.InfoWindow({
+        contentStrings[i] = schedule();
+        infoWindows[i] = new google.maps.InfoWindow({
+            content: contentStrings[i]
+        });
+        //var contentString = schedule();
+        //var infoWindow = new google.maps.InfoWindow({
               //  content: contentString
-        });
-        marker.addListener('click', function(){
-            infoWindow.open(map, this);
-            infoWindow.setContent(contentString);
-        });
+        //});
+        google.maps.event.addListener(markers[i],'click', function(i){
+            return function() {
+                infoWindows[i].open(map, markers[i]);
+            }
+           // infoWindow.setContent(contentString);
+        }(i));
+        infoWindows.push(infoWindow);
+        markers.push(marker);
     }
 
         /*
