@@ -55,17 +55,17 @@ request.onreadystatechange = schedule;
 request.send(null);
 function schedule(){
     if(request.readyState == 4 && request.status == 200){
-        var contentStringStations = "";
+        var contentStringStations = [];
         //raw = request.responseText;
         var redLineData = JSON.parse(request.responseText);
         for (i=0; i < redLineData["TripList"]["Trips"].length; i++){
-        contentStringStations += '<div id = "content">' + '<h1 id="firstHeading"> Red Line Schedule for</h1>' + redLineData["TripList"]["Trips"][i]["Predictions"][0]["Stop"] + ", " + redLineData["TripList"]["Trips"][i]["Destination"] +  " bound, will arrive in " + redLineData["TripList"]["Trips"][i]["Predictions"][i]["Seconds"] + " seconds" + '</div>';
+            contentStringStations += '<div id = "content">' + '<h1 id="firstHeading"> Red Line Schedule for</h1>' + redLineData["TripList"]["Trips"][i]["Predictions"][0]["Stop"] + ", " + redLineData["TripList"]["Trips"][i]["Destination"] +  " bound, will arrive in " + redLineData["TripList"]["Trips"][i]["Predictions"][i]["Seconds"] + " seconds" + '</div>';
         return contentStringStations[i];
         }
     } else if (request.readyState == 4 && request.status != 200) {
         document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
     }
-};
+}
 
 
 
@@ -91,7 +91,7 @@ function init(){
                 icon: image,
                 title: title
         });
-        var contentString = schedule(i);
+        var contentString = schedule();
         var infoWindow = new google.maps.InfoWindow({
             content: contentString
         });
@@ -108,6 +108,7 @@ function init(){
             };
         }) (marker, content, infowindow));
     
+    */
     /*for (var i=0; i<redLineStations.length;i++){
         var contentString = schedule();
         var infoWindow = new google.maps.InfoWindow(){
@@ -120,7 +121,7 @@ function init(){
     */
     var redPolyline1 = new google.maps.Polyline({
             path:redLineAlewifeToJFK,
-            //geodesic: true,
+            geodesic: true,
             strokeColor: '#FF0000',
             strokeOpacity: 1.0,
             strokeWeight: 2,
@@ -181,13 +182,12 @@ function init(){
                 strokeWeight: 2
             });
             polylineUserToStation.setMap(map);
-
         });
     } else {
-        alert('Your browser does not support geolocation. What a shame.');
+            alert('Your browser does not support geolocation. What a shame.');
     }
-    schedule();
 }
+
 
 /*
 
