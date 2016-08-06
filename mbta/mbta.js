@@ -105,12 +105,34 @@ function init(){
         strokeWeight: 2,
     });
     redPolyline3.setMap(map);
+    var image2 = "geolocationMarker.png";
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+            var userLat = position.coords.latitude;
+            var userLng = position.coords.longitude;
+            var user = new google.maps.LatLng(userLat, userLng);
+            var marker = new google.maps.Marker({
+                position: user,
+                title: 'Here you are!',
+                icon: "geolocationMarker.png"
+            });
+            marker.setMap(map)
+            google.maps.event.addListener(marker, 'click', function(){
+                infoWindow.setContent(marker.title);
+                infoWindow.open(map,marker);
+            });
+            //closestDistance();
+        });
+    } else {
+        alert('Your browser does not support geolocation. What a shame.');
+    }
+    //sample();
     //findMe();
-    showMe();
+    //showMe();
     //
 }
 var image2 = "geolocationMarker.png";
-
+/*
 function showMe() {
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(function(position){
@@ -120,9 +142,9 @@ function showMe() {
             var marker = new google.maps.Marker({
                 position: user,
                 title: 'Here you are!',
-                icon: image2
+                icon: "geolocationMarker.png"
             });
-            marker.setMap(map);
+            marker.setMap(map)
             google.maps.event.addListener(marker, 'click', function(){
                 infoWindow.setContent(marker.title);
                 infoWindow.open(map,marker);
@@ -133,7 +155,8 @@ function showMe() {
         alert('Your browser does not support geolocation. What a shame.');
     }
 }
-
+*/
+// not using this now
 /*
             renderMap();
             });
@@ -158,22 +181,25 @@ function renderMap() {
 */
 
 //sample marker for testing
-var userLat = 42.406510;
-var userLng = -71.119352;
-var position1 = new google.maps.LatLng(userLat, userLng);
+//
+/*function sample(){
+    var userLat = 42.406510;
+    var userLng = -71.119352;
+    var position1 = new google.maps.LatLng(userLat, userLng);
     //map.panTo(position);
-var marker1 = new google.maps.Marker({
-    position: position1,
-    title: 'Here you are',
-    icon: image2
-});
-marker1.setMap(map);
+    var marker1 = new google.maps.Marker({
+        position: position1,
+        title: 'Here you are',
+        icon: "geolocationMarker.png"
+    });
+    marker1.setMap(map);
 
-google.maps.event.addListener(marker, 'click', function(){
-    infoWindow.setContent(marker.title);
-    infoWindow.open(map,marker);
-});
-
+    google.maps.event.addListener(marker1, 'click', function(){
+        infoWindow.setContent(marker1.title);
+        infoWindow.open(map,marker1);
+    });
+}
+*/
 
 /*
 //var image2 = "whereAreYou.png";
