@@ -58,9 +58,10 @@ function schedule(){
         var contentStringStations = [];
         //raw = request.responseText;
         var redLineData = JSON.parse(request.responseText);
-        for (i=0; i < redLineData["TripList"]["Trips"].length; i++){
-            contentStringStations += '<div id = "content">' + '<h1 id="firstHeading"> Red Line Schedule for</h1>' + redLineData["TripList"]["Trips"][i]["Predictions"][0]["Stop"] + ", " + redLineData["TripList"]["Trips"][i]["Destination"] +  " bound, will arrive in " + redLineData["TripList"]["Trips"][i]["Predictions"][i]["Seconds"] + " seconds" + '</div>';
-        return contentStringStations[i];
+        for (i=0; i < redLineData.TripList.Trips.length; i++){
+            contentStringStations = '<div id = "content">' + '<h1 id="firstHeading"> Red Line Schedule for</h1>' + redLineData.TripList.Trips[i].Predictions[i].Stop + ", " + redLineData.TripList.Trips[i].Destination +  " bound, will arrive in " + redLineData.TripList.Trips[i].Predictions[i].Seconds + " seconds" + '</div>';
+        console.log(contentStringStations);
+        return contentStringStations;
         }
     } else if (request.readyState == 4 && request.status != 200) {
         document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
