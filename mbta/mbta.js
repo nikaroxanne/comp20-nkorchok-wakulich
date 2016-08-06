@@ -106,36 +106,77 @@ function init(){
     });
     redPolyline3.setMap(map);
     //findMe();
-    //showMe();
+    showMe();
     //
+}
+var image2 = "geolocationMarker.png";
 
-var image2 = "whereAreYou.png";
-if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(function(position)
-            var yourLocation = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
+function showMe() {
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+            var userLat = position.coords.latitude;
+            var userLng = position.coords.longitude;
+            var user = new google.maps.LatLng(userLat, userLng);
+            var marker = new google.maps.Marker({
+                position: user,
+                title: 'Here you are!',
+                icon: image2
+            });
+            marker.setMap(map);
+            google.maps.event.addListener(marker, 'click', function(){
+                infoWindow.setContent(marker.title);
+                infoWindow.open(map,marker);
+            });
+            //closestDistance();
+        });
+    } else {
+        alert('Your browser does not support geolocation. What a shame.');
+    }
+}
 
+/*
+            renderMap();
+            });
+    } else {
+        alert('Geolocation is not supported by your web browser. Sorry.');
+    }
+}
+function renderMap() {
+    var user = new google.maps.LatLng(userLat, userLng);
+    var marker= new google.maps.Marker({
+                position: user,
+               //{lat: position.coords.latitude, lng: position.coords.longitude},
+                title: 'Here you are!',
+                icon: 'geolocationMarker.png'
+            });
+            marker.setMap(map);
+            google.maps.event.addListener(marker, 'click', function(){
+                infoWindow.setContent(marker.title);
+                infoWindow.open(map,marker);
+            });
+}
+*/
 
+//sample marker for testing
 var userLat = 42.406510;
 var userLng = -71.119352;
 var position1 = new google.maps.LatLng(userLat, userLng);
     //map.panTo(position);
-var marker = new google.maps.Marker({
+var marker1 = new google.maps.Marker({
     position: position1,
-        title: 'Here you are',
-        icon: image2
+    title: 'Here you are',
+    icon: image2
 });
-marker.setMap(map);
+marker1.setMap(map);
 
 google.maps.event.addListener(marker, 'click', function(){
     infoWindow.setContent(marker.title);
     infoWindow.open(map,marker);
 });
-}
+
+
 /*
-var image2 = "whereAreYou.png";
+//var image2 = "whereAreYou.png";
 function showMe(){
     var userLat = 42.406510;
     var userLng = -71.119352;
@@ -240,6 +281,46 @@ function renderMap(){
     });
 }
 */
+
+
+//updated formula here
+/*
+function userLocation(position){
+    nearestStation(position.coords.latitude, positions.coords.longitude);
+}
+
+function closestDistance(pos1, pos2)
+    var lat1= pos1.latitude;
+    var lat2= pos2.latitude;
+    var lon1= pos1.longitude;
+    var lon2= pos2.longitude;
+    var R = 6371;
+    var dLat = lat1.toRadians();
+    var dLon = lat2.toRadians();
+    var x1 = (lat2-lat1).toRadians()
+    var x2= (lon2-lon1).toRadians();
+    var a= Math.sin(x1/2) * Math.sin(x2/2) + Math.cos(dLat) * Math.cos(dLon) * Math.sin(x2/2) * Math.sin(x1/2);
+    var c = 2* Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    return d;
+}
+
+function nearestStation(userLat,userLon);{
+
+    for( var index =0; index < redLineStations.length; index++) {
+        var dif = closestDistance(userLat, userLon, redLineStations[i][1], redLineStations[i][2]);
+        if (dif < mindif)
+        {
+            closest = i;
+            mindif = dif;
+        }
+    }
+        alert (redLineStations[closest]);
+}
+*/
+
+
+//old formula below
 /*
 function closestDistance(userLat,usrLng){
     var pi = Math.pi;
