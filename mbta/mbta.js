@@ -1,11 +1,7 @@
-//var userLat = 42.406510;
-//var userLng = -71.119352;
 var request = new XMLHttpRequest();
-//var user = new google.maps.LatLng(userLat, userLng);
 var map;
 var marker;
 var infoWindow = new google.maps.InfoWindow();
-
 
 var redLineCenter = new google.maps.LatLng(42.352271, -71.05524200000001);
 
@@ -105,6 +101,7 @@ function init(){
         strokeWeight: 2,
     });
     redPolyline3.setMap(map);
+
     var image2 = "geolocationMarker.png";
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(function(position){
@@ -117,11 +114,27 @@ function init(){
                 icon: "geolocationMarker.png"
             });
             marker.setMap(map)
+
+            var mindist = 99999;
+            var closest = 0;
+            var distances = [];
+            for( var i =0; i < redLineStations.length; i++) {
+                    var dif = closestDistance(userLat, redLineStations[i][1], userLng, redLineStations[i][2]);
+                    if (dif < mindist) {
+                    closest = i;
+                    mindist = dist;
+                    }
+            }
+            //nearestStation(position.coords.latitude, position.coords.longitude);
+            var contentString = "" + "The closest Red Line Station to you is:" + redLineStations[closest].stationName + ". It is " + mindist + "kilometers away from you.";
             google.maps.event.addListener(marker, 'click', function(){
-                infoWindow.setContent(marker.title);
+                infoWindow.setContent(contentString);
                 infoWindow.open(map,marker);
             });
-            //closestDistance();
+            
+            //nearestStation(position.coords.latitude, position.coords.longitude);
+            //var contentString = "" + "The closest Red Line Station to you is:" + redLineStations[closest].stationName + ". It is " + mindist + "kilometers away from you.";
+
         });
     } else {
         alert('Your browser does not support geolocation. What a shame.');
@@ -131,96 +144,7 @@ function init(){
     //showMe();
     //
 }
-var image2 = "geolocationMarker.png";
-/*
-function showMe() {
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(function(position){
-            var userLat = position.coords.latitude;
-            var userLng = position.coords.longitude;
-            var user = new google.maps.LatLng(userLat, userLng);
-            var marker = new google.maps.Marker({
-                position: user,
-                title: 'Here you are!',
-                icon: "geolocationMarker.png"
-            });
-            marker.setMap(map)
-            google.maps.event.addListener(marker, 'click', function(){
-                infoWindow.setContent(marker.title);
-                infoWindow.open(map,marker);
-            });
-            //closestDistance();
-        });
-    } else {
-        alert('Your browser does not support geolocation. What a shame.');
-    }
-}
-*/
-// not using this now
-/*
-            renderMap();
-            });
-    } else {
-        alert('Geolocation is not supported by your web browser. Sorry.');
-    }
-}
-function renderMap() {
-    var user = new google.maps.LatLng(userLat, userLng);
-    var marker= new google.maps.Marker({
-                position: user,
-               //{lat: position.coords.latitude, lng: position.coords.longitude},
-                title: 'Here you are!',
-                icon: 'geolocationMarker.png'
-            });
-            marker.setMap(map);
-            google.maps.event.addListener(marker, 'click', function(){
-                infoWindow.setContent(marker.title);
-                infoWindow.open(map,marker);
-            });
-}
-*/
 
-//sample marker for testing
-//
-/*function sample(){
-    var userLat = 42.406510;
-    var userLng = -71.119352;
-    var position1 = new google.maps.LatLng(userLat, userLng);
-    //map.panTo(position);
-    var marker1 = new google.maps.Marker({
-        position: position1,
-        title: 'Here you are',
-        icon: "geolocationMarker.png"
-    });
-    marker1.setMap(map);
-
-    google.maps.event.addListener(marker1, 'click', function(){
-        infoWindow.setContent(marker1.title);
-        infoWindow.open(map,marker1);
-    });
-}
-*/
-
-/*
-//var image2 = "whereAreYou.png";
-function showMe(){
-    var userLat = 42.406510;
-    var userLng = -71.119352;
-    var position = new google.maps.LatLng(userLat, userLng);
-    //map.panTo(position);
-    var marker = new google.maps.Marker({
-        position: position,
-        title: 'Here you are',
-        icon: image2
-    });
-    marker.setMap(map);
-
-    google.maps.event.addListener(marker, 'click', function(){
-        infoWindow.setContent(marker.title);
-        infoWindow.open(map,marker);
-    });
-}
-*/
 
 /*
 request = new XMLHttpRequest();
@@ -242,71 +166,6 @@ function schedule(){
     }
 };
 */
-/*
-
-if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-        };
-
-        infoWindow.setPosition(pos);
-        infoWindow.setContent('You are here.');
-        //map.setCenter(pos);
-    }, function () {
-        handleLocationError(true, infoWindow, map.getCenter());
-    });
-
-} else {
-   handleLocationError(false, infoWindow, map.getCenter());
-}
-
-
-function handleLocationError(browserHasGeolocation, infoWindow, pos){
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-            'Error: The Geolocation service failed.' :
-            'Error: Your browser doesn\'t support geolocation.');
-}
-  */ 
-    /*
-    } else {
-        alert("Geolocation service did not work." + "<br>" + "Please check your browser and verify that you are using one that supports geolocation.");
-    }
-}
-*/
-/*
-function findMe() {
-    if (navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(function(position){
-            userLat = position.coords.latitude;
-            userLng = position.coords.longitude;
-            renderMap();
-            });
-    } else {
-        alert("Your browser doesn't support Geolocation. Sorry.");
-    }
-}
-*/
-/*
-var markerImage = "whereAreYou.png";
-function renderMap(){
-    user = new google.maps.LatLng(userLat, userLng);
-    map.panTo(user);
-    marker = new google.maps.Marker({
-        position: user,
-        title: 'You are here!',
-        icon: markerImage
-    });
-    marker.setMap(map);
-
-    google.maps.event.addListener(marker, 'click', function() {
-        infowindow.setContent(marker.title),
-        infowindow.open(map, marker)
-    });
-}
-*/
 
 
 //updated formula here
@@ -314,36 +173,42 @@ function renderMap(){
 function userLocation(position){
     nearestStation(position.coords.latitude, positions.coords.longitude);
 }
-
-function closestDistance(pos1, pos2)
-    var lat1= pos1.latitude;
-    var lat2= pos2.latitude;
-    var lon1= pos1.longitude;
-    var lon2= pos2.longitude;
+*/
+function closestDistance(lat1, lat2, lon1, lon2){
+   // var lat1= pos1.latitude;
+    //var lat2= pos2.latitude;
+    //var lon1= pos1.longitude;
+    //var lon2= pos2.longitude;
     var R = 6371;
-    var dLat = lat1.toRadians();
-    var dLon = lat2.toRadians();
-    var x1 = (lat2-lat1).toRadians()
-    var x2= (lon2-lon1).toRadians();
-    var a= Math.sin(x1/2) * Math.sin(x2/2) + Math.cos(dLat) * Math.cos(dLon) * Math.sin(x2/2) * Math.sin(x1/2);
+    var dLat = toRadians(lat1);
+    var dLon = toRadians(lat2);
+    var x1 = toRadians(lat2-lat1);
+    var x2= toRadians(lon2 -lon1);
+    var a= Math.sin(x1/2) * Math.sin(x1/2) + Math.cos(dLat) * Math.cos(dLon) * Math.sin(x2/2) * Math.sin(x2/2);
     var c = 2* Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
     return d;
 }
 
-function nearestStation(userLat,userLon);{
-
-    for( var index =0; index < redLineStations.length; index++) {
-        var dif = closestDistance(userLat, userLon, redLineStations[i][1], redLineStations[i][2]);
-        if (dif < mindif)
-        {
-            closest = i;
-            mindif = dif;
-        }
-    }
-        alert (redLineStations[closest]);
+function toRadians(value){
+    return value * Math.PI /180;
 }
-*/
+
+function nearestStation(userLat, userLng){
+var mindist = 99999;
+var closest = 0;
+var distances = [];
+    for( var i =0; i < redLineStations.length; i++) {
+        var dif = closestDistance(userLat, userLng, redLineStations[i][1], redLineStations[i][2]);
+        if (dif < mindist) {
+            closest = i;
+            mindist = dist;
+        }
+        
+    }
+        return mindist, closest;
+}
+
 
 
 //old formula below
