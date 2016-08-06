@@ -49,6 +49,26 @@ var myOptions = {
     mapTypeId:google.maps.MapTypeId.ROADMAP
 };
 
+request = new XMLHttpRequest();
+request.open("GET", "https://powerful-depths-66091.herokuapp.com/redline.json",true);
+request.onreadystatechange = schedule;
+request.send(null);
+function schedule(){
+    if(request.readyState == 4 && request.status == 200){
+        var contentStringStations = "";
+        //raw = request.responseText;
+        var redLineData = JSON.parse(request.responseText);
+        for (i=0; i < redLineData["TripList"]["Trips"].length; i++){
+        contentStringStations += '<div id = "content">' + '<h1 id="firstHeading"> Red Line Schedule for</h1>' + redLineData["TripList"]["Trips"][i]["Predictions"][0]["Stop"] + ", " + redLineData["TripList"]["Trips"][i]["Destination"] +  " bound, will arrive in " + redLineData["TripList"]["Trips"][i]["Predictions"][i]["Seconds"] + " seconds" + '</div>';
+        return contentStringStations[i];
+        }
+    } else if (request.readyState == 4 && request.status != 200) {
+        document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
+    }
+};
+
+
+
 function init(){
     var map = new google.maps.Map(document.getElementById("map"), myOptions);
 
@@ -71,8 +91,33 @@ function init(){
                 icon: image,
                 title: title
         });
+        var contentString = schedule(i);
+        var infoWindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+        marker.addListener('click', function(){
+            infoWindow.open(map, marker);
+        });
     }
 
+        /*
+        google.maps.add.eventListener(marker, 'click', (function(marker,content,infoWindow){
+            return function(){
+                infoWindow.setContent(schedule());
+                infoWindow.open(map,marker);
+            };
+        }) (marker, content, infowindow));
+    
+    /*for (var i=0; i<redLineStations.length;i++){
+        var contentString = schedule();
+        var infoWindow = new google.maps.InfoWindow(){
+            content: contentString;
+        });
+        marker.addListener('click', function(){
+            infoWindow.open(map, marker);
+        });
+    }
+    */
     var redPolyline1 = new google.maps.Polyline({
             path:redLineAlewifeToJFK,
             //geodesic: true,
@@ -114,20 +159,7 @@ function init(){
                 icon: "geolocationMarker.png"
             });
             marker.setMap(map)
-            /*
-            //var mindist = 99999;
-            var closest = -1;
-            var distances = [];
-            for( var i =0; i < redLineStations.length; i++) {
-                    var dif = closestDistance(userLat, redLineStations[i][1], userLng, redLineStations[i][2]);
-                    distances.push(dif);
-                    //distances[i] = dif;
-                    var a = Math.min(distances);
-                    if (closest == -1 || dif <distances[closest]){
-                        closest = i;
-                    }
-            }
-            */
+            
             var stationDistances = closestDistance(position.coords.latitude, position.coords.longitude);
             var mindist = stationDistances.mindist; 
             var closest = stationDistances.closest;
@@ -149,92 +181,37 @@ function init(){
                 strokeWeight: 2
             });
             polylineUserToStation.setMap(map);
-            //nearestStation(position.coords.latitude, position.coords.longitude);
-            //var contentString = "" + "The closest Red Line Station to you is:" + redLineStations[closest].stationName + ". It is " + mindist + "kilometers away from you.";
 
         });
     } else {
         alert('Your browser does not support geolocation. What a shame.');
     }
-    //sample();
-    //findMe();
-    //showMe();
-    //
+    schedule();
 }
 
-
 /*
+
 request = new XMLHttpRequest();
 request.open("GET", "https://powerful-depths-66091.herokuapp.com/redline.json",true);
 request.onreadystatechange = schedule;
 request.send(null);
 function schedule(){
     if(request.readyState == 4 && request.status == 200){
-        result = "";
+        contentStringStations = "";
         //raw = request.responseText;
         redLineData = JSON.parse(request.responseText);
-       // elem = getElementById("list");
         for (i=0; i < redLineData["TripList"]["Trips"].length; i++){
-            result += "<p>The Next Scheduled Train to" + " " + ["TripList"]["Trips"][i]["Predictions"][0]["Stop"] + ", " + redLineData["TripList"]["Trips"][i]["Destination"] +  " bound, will arrive in " + redLineData["TripList"]["Trips"][i]["Predictions"][0]["Seconds"] + " seconds</p>";
+            contentStringStations += "<p>The Next Scheduled Train to" + " " + ["TripList"]["Trips"][i]["Predictions"][0]["Stop"] + ", " + redLineData["TripList"]["Trips"][i]["Destination"] +  " bound, will arrive in " + redLineData["TripList"]["Trips"][i]["Predictions"][0]["Seconds"] + " seconds</p>";
         }
-        document.getElementById("list").innerHTML = result;
+        var infoWindow = new google.maps.InfoWindow({
+            content: contentStringStations
+        });
     } else if (request.readyState == 4 && request.status != 200) {
         document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
     }
 };
-*/
 
-
-//updated formula here
-/*
-function userLocation(position){
-    nearestStation(position.coords.latitude, positions.coords.longitude);
-}
 */
-/*
-function closestDistance(lat1, lat2, lon1, lon2){
-   // var lat1= pos1.latitude;
-    //var lat2= pos2.latitude;
-    //var lon1= pos1.longitude;
-    //var lon2= pos2.longitude;
-    var R = 6371;
-    var dLat = toRadians(lat1);
-    var dLon = toRadians(lat2);
-    var x1 = toRadians(lat2-lat1);
-    var x2= toRadians(lon2 -lon1);
-    var a= Math.sin(x1/2) * Math.sin(x1/2) + Math.cos(dLat) * Math.cos(dLon) * Math.sin(x2/2) * Math.sin(x2/2);
-    var c = 2* Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    var d = R * c;
-    return d;
-}
-*/
-/*
-function toRadians(value){
-    return value * Math.PI /180;
-}
-*/
-/*
-function nearestStation(userLat, userLng){
-    var mindist = 99999;
-    var closest = 0;
-    var distances = [];
-    for(var i =0; i < redLineStations.length; i++) {
-        var dist = closestDistance(userLat, userLng, redLineStations[i][1], redLineStations[i][2]);
-        if (dist < mindist) {
-            closest = i;
-            mindist = dist;
-        }
-        
-    }
-    return {
-        mindist: mindist,
-        closest: closest
-    };
-}
-*/
-
-
-//old formula below
 
 function closestDistance(userLat,userLng){
     var pi = Math.pi;
