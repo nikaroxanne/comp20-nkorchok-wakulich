@@ -49,6 +49,7 @@ var myOptions = {
     mapTypeId:google.maps.MapTypeId.ROADMAP
 };
 
+/*
 request = new XMLHttpRequest();
 request.open("GET", "https://powerful-depths-66091.herokuapp.com/redline.json",true);
 request.onreadystatechange = schedule;
@@ -71,7 +72,10 @@ function schedule(){
         document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
     }
 }
+*/
 
+function createSchedule(stationName){
+}    
 
 
 function init(){
@@ -88,7 +92,7 @@ function init(){
     redCenterMarker.setMap(map);
     var markers = [];
     var infoWindows = [];
-    var contentStrings = [];
+    //var contentStrings = [];
     //var contentString = schedule();
     for(var i =0; i<redLineStations.length; i++){
         var position = new google.maps.LatLng(redLineStations[i].lat, redLineStations[i].lng);
@@ -99,22 +103,35 @@ function init(){
                 icon: image,
                 title: title
         });
-        contentStrings[i] = schedule();
+        //contentStrings[i] = schedule();
         infoWindows[i] = new google.maps.InfoWindow({
-            content: contentStrings[i]
+            //content: contentStrings[i]
         });
         //var contentString = schedule();
         //var infoWindow = new google.maps.InfoWindow({
               //  content: contentString
         //});
         google.maps.event.addListener(markers[i],'click', function(i){
-            return function() {
-                infoWindows[i].open(map, markers[i]);
-            }
-           // infoWindow.setContent(contentString);
-        }(i));
-        infoWindows.push(infoWindow);
-        markers.push(marker);
+            return function() {    
+                request = new XMLHttpRequest();
+                request.open("GET", "https://powerful-depths-66091.herokuapp.com/redline.json",true);
+                request.onreadystatechange = schedule;
+                request.send(null);
+                function schedule(){
+                    if(request.readyState == 4 && request.status == 200){
+                    var contentStringStations = [];
+                    //raw = request.responseText;
+                        redLineData = JSON.parse(request.responseText);
+                        infoWindows[i].setContent(this.title);
+                    } else if (request.readyState == 4 && request.status != 200) {
+                        document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
+                    }
+                }; infoWindows[i].open(map,markers[i]);
+                // infoWindow.setContent(contentString);
+            }(i)
+            infoWindows.push(infoWindow);
+            markers.push(marker);
+        });
     }
 
         /*
