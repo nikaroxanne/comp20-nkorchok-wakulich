@@ -91,7 +91,7 @@ function init(){
     });
     redCenterMarker.setMap(map);
     var markers = [];
-    var infoWindows = [];
+    var infoWindow = new google.maps.InfoWindow(), marker, i;
     //var contentStrings = [];
     //var contentString = schedule();
     for(var i =0; i<redLineStations.length; i++){
@@ -104,14 +104,14 @@ function init(){
                 title: title
         });
         //contentStrings[i] = schedule();
-        infoWindows[i] = new google.maps.InfoWindow({
+        //infoWindow = new google.maps.InfoWindow({
             //content: contentStrings[i]
-        });
+        //});
         //var contentString = schedule();
         //var infoWindow = new google.maps.InfoWindow({
               //  content: contentString
         //});
-        google.maps.event.addListener(markers[i],'click', function(i){
+        google.maps.event.addListener(markers[i],'click', function(marker, content, infoWindow){
             return function() {    
                 request = new XMLHttpRequest();
                 request.open("GET", "https://powerful-depths-66091.herokuapp.com/redline.json",true);
@@ -119,21 +119,29 @@ function init(){
                 request.send(null);
                 function schedule(){
                     if(request.readyState == 4 && request.status == 200){
-                    var contentStringStations = [];
+                        contentStringStations = "";
                     //raw = request.responseText;
                         redLineData = JSON.parse(request.responseText);
-                        infoWindows[i].setContent(this.title);
+                        for (j=0; i < redLineData.TripList.Trips.length; i++){
+                            if (redLineData.TripList.Trips[i].Predictions[j].Stop == this.getTitle()) 
+                            {
+                                contentStringStations += '<div id = "content">' + '<h2 id="firstHeading"> Red Line Schedule for</h1>' + redLineData.TripList.Trips[j].Predictions[j].Stop + ", " + redLineData.TripList.Trips[i].Destination +  " bound, will arrive in " + redLineData.TripList.Trips[i].Predictions[j].Seconds + " seconds" + '</div>';
+                                content = contentStringStations;
+                                //console.log(content);
+                            }
+                         } infoWindow.setContent(this.content);
+                           console.log(this.content);
                     } else if (request.readyState == 4 && request.status != 200) {
                         document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
                     }
-                }; infoWindows[i].open(map,markers[i]);
+                }; infoWindow.open(map,markers[i]);
                 // infoWindow.setContent(contentString);
-            }(i)
-            infoWindows.push(infoWindow);
+            };(i)
+            //infoWindows.push(infoWindow);
             markers.push(marker);
         });
+    
     }
-
         /*
         google.maps.add.eventListener(marker, 'click', (function(marker,content,infoWindow){
             return function(){
