@@ -23,7 +23,7 @@ var redLineAlewifeToJFK = [
 
     
 var redLineJFKToBraintree = [
-        {stationName:'JFK_UMass', lat:42.320685, lng:-71.052391},
+        {stationName:'JFK/UMass', lat:42.320685, lng:-71.052391},
         {stationName:'North Quincy', lat:42.275275, lng:-71.029583},
         {stationName:'Wollaston', lat:42.2665139, lng:-71.0203369},
         {stationName:'Quincy Center', lat:42.251809, lng:-71.005409},
@@ -33,7 +33,7 @@ var redLineJFKToBraintree = [
 
     
 var redLineJFKToAshmont = [
-        {stationName:'JFK_UMass', lat:42.320685, lng:-71.052391},
+        {stationName:'JFK/UMass', lat:42.320685, lng:-71.052391},
         {stationName:'Savin Hill', lat:42.31129, lng:-71.053331},
         {stationName:'Fields Corner', lat:42.300093, lng:-71.061667},
         {stationName:'Shawmut', lat:42.29312583, lng:-71.06573796000001},
@@ -49,51 +49,23 @@ var myOptions = {
     mapTypeId:google.maps.MapTypeId.ROADMAP
 };
 
-/*
-request = new XMLHttpRequest();
-request.open("GET", "https://powerful-depths-66091.herokuapp.com/redline.json",true);
-request.onreadystatechange = schedule;
-request.send(null);
-function schedule(){
-    if(request.readyState == 4 && request.status == 200){
-        var contentStringStations = [];
-        //raw = request.responseText;
-        var redLineData = JSON.parse(request.responseText);
-        for (i=0; i < redLineData.TripList.Trips.length; i++){
-            contentStringStations[i] = '<div id = "content">' + '<h2 id="firstHeading"> Red Line Schedule for</h1>' + redLineData.TripList.Trips[i].Predictions[0].Stop + ", " + redLineData.TripList.Trips[i].Destination +  " bound, will arrive in " + redLineData.TripList.Trips[i].Predictions[0].Seconds + " seconds" + '</div>';
-        
-        console.log(contentStringStations[i]);
-        return contentStringStations[i];
-        //console.log(contentStringStations);
-        document.getElementById("list").innerHTML = contentStringStations;
-        //return contentStringStations;
-        }
-    } else if (request.readyState == 4 && request.status != 200) {
-        document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
-    }
-}
-*/
-
-function createSchedule(stationName){
-}    
 
 
 function init(){
     var map = new google.maps.Map(document.getElementById("map"), myOptions);
 
     var image = "redline.png";
-
+    
     var redCenterMarker = new google.maps.Marker({
         position: redLineCenter,
         map: map,
         icon: image,
         title: "South Station"
     });
+    
     redCenterMarker.setMap(map);
     var markers = [];
     var infoWindow = new google.maps.InfoWindow(), marker, i;
-    //var contentStrings = [];
-    //var contentString = schedule();
     for(var i =0; i<redLineStations.length; i++){
         var position = new google.maps.LatLng(redLineStations[i].lat, redLineStations[i].lng);
         var title = redLineStations[i].stationName;
@@ -103,64 +75,31 @@ function init(){
                 icon: image,
                 title: title
         });
-        //contentStrings[i] = schedule();
-        //infoWindow = new google.maps.InfoWindow({
-            //content: contentStrings[i]
-        //});
-        //var contentString = schedule();
-        //var infoWindow = new google.maps.InfoWindow({
-              //  content: contentString
-        //});
-        google.maps.event.addListener(markers[i],'click', function(marker, content, infoWindow){
-            return function() {    
+        google.maps.event.addListener(markers[i],'click', function(){
+                var theMarker = this;
+                console.log(theMarker.title);    
                 request = new XMLHttpRequest();
                 request.open("GET", "https://powerful-depths-66091.herokuapp.com/redline.json",true);
-                request.onreadystatechange = schedule;
-                request.send(null);
-                function schedule(){
+                request.onreadystatechange = function(){
                     if(request.readyState == 4 && request.status == 200){
                         contentStringStations = "";
-                    //raw = request.responseText;
                         redLineData = JSON.parse(request.responseText);
-                        for (j=0; i < redLineData.TripList.Trips.length; i++){
-                            if (redLineData.TripList.Trips[i].Predictions[j].Stop == this.getTitle()) 
+                        for (var i=0; i < redLineData.TripList.Trips.length; i++){
+                            if (redLineData.TripList.Trips[i].Predictions[0].Stop == theMarker.title) 
                             {
-                                contentStringStations += '<div id = "content">' + '<h2 id="firstHeading"> Red Line Schedule for</h1>' + redLineData.TripList.Trips[j].Predictions[j].Stop + ", " + redLineData.TripList.Trips[i].Destination +  " bound, will arrive in " + redLineData.TripList.Trips[i].Predictions[j].Seconds + " seconds" + '</div>';
-                                content = contentStringStations;
-                                //console.log(content);
+                                contentStringStations += '<div id = "content">' + '<h2 id="firstHeading"> Red Line Schedule for</h1>' + redLineData.TripList.Trips[i].Predictions[0].Stop + ", " + redLineData.TripList.Trips[i].Destination +  " bound, will arrive in " + redLineData.TripList.Trips[i].Predictions[0].Seconds + " seconds" + '</div>';
                             }
-                         } infoWindow.setContent(this.content);
-                           console.log(this.content);
+                         } infoWindow.setContent(contentStringStations);
+                           console.log(contentStringStations);
                     } else if (request.readyState == 4 && request.status != 200) {
                         document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
                     }
-                }; infoWindow.open(map,markers[i]);
-                // infoWindow.setContent(contentString);
-            };(i)
-            //infoWindows.push(infoWindow);
+                    infoWindow.open(map,theMarker);
+            };
+            request.send(null);
             markers.push(marker);
         });
-    
-    }
-        /*
-        google.maps.add.eventListener(marker, 'click', (function(marker,content,infoWindow){
-            return function(){
-                infoWindow.setContent(schedule());
-                infoWindow.open(map,marker);
-            };
-        }) (marker, content, infowindow));
-    
-    */
-    /*for (var i=0; i<redLineStations.length;i++){
-        var contentString = schedule();
-        var infoWindow = new google.maps.InfoWindow(){
-            content: contentString;
-        });
-        marker.addListener('click', function(){
-            infoWindow.open(map, marker);
-        });
-    }
-    */
+    }   
     var redPolyline1 = new google.maps.Polyline({
             path:redLineAlewifeToJFK,
             geodesic: true,
@@ -231,30 +170,6 @@ function init(){
 }
 
 
-/*
-
-request = new XMLHttpRequest();
-request.open("GET", "https://powerful-depths-66091.herokuapp.com/redline.json",true);
-request.onreadystatechange = schedule;
-request.send(null);
-function schedule(){
-    if(request.readyState == 4 && request.status == 200){
-        contentStringStations = "";
-        //raw = request.responseText;
-        redLineData = JSON.parse(request.responseText);
-        for (i=0; i < redLineData["TripList"]["Trips"].length; i++){
-            contentStringStations += "<p>The Next Scheduled Train to" + " " + ["TripList"]["Trips"][i]["Predictions"][0]["Stop"] + ", " + redLineData["TripList"]["Trips"][i]["Destination"] +  " bound, will arrive in " + redLineData["TripList"]["Trips"][i]["Predictions"][0]["Seconds"] + " seconds</p>";
-        }
-        var infoWindow = new google.maps.InfoWindow({
-            content: contentStringStations
-        });
-    } else if (request.readyState == 4 && request.status != 200) {
-        document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
-    }
-};
-
-*/
-
 function closestDistance(userLat,userLng){
     var pi = Math.pi;
     var R = 6371;
@@ -283,4 +198,3 @@ function closestDistance(userLat,userLng){
     };
 }
 
-//google.maps.event.addDomListener(window,'load',initialize);
