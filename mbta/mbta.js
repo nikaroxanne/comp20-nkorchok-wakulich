@@ -85,10 +85,11 @@ function init(){
                         contentStringStations = "";
                         redLineData = JSON.parse(request.responseText);
                         for (var i=0; i < redLineData.TripList.Trips.length; i++){
-                            if (redLineData.TripList.Trips[i].Predictions[0].Stop == theMarker.title) 
-                            {
-                                contentStringStations += '<div id = "content">' + '<h2 id="firstHeading"> Red Line Schedule for</h1>' + redLineData.TripList.Trips[i].Predictions[0].Stop + ", " + redLineData.TripList.Trips[i].Destination +  " bound, will arrive in " + redLineData.TripList.Trips[i].Predictions[0].Seconds + " seconds" + '</div>';
-                            }
+
+                                if (redLineData.TripList.Trips[i].Predictions[0].Stop == theMarker.title) 
+                                {
+                                    contentStringStations += '<div id = "content">' + '<h3 id="firstHeading"> Red Line Schedule for</h3>' + redLineData.TripList.Trips[i].Predictions[0].Stop + ", " + redLineData.TripList.Trips[i].Destination +  " bound, will arrive in " + redLineData.TripList.Trips[i].Predictions[0].Seconds + " seconds" + '</div>';
+                                }
                          } infoWindow.setContent(contentStringStations);
                            console.log(contentStringStations);
                     } else if (request.readyState == 4 && request.status != 200) {
@@ -145,7 +146,7 @@ function init(){
             var stationDistances = closestDistance(position.coords.latitude, position.coords.longitude);
             var mindist = stationDistances.mindist; 
             var closest = stationDistances.closest;
-            var contentString = "" + "The closest Red Line Station to you is:" + redLineStations[closest].stationName + ". It is " + mindist + "kilometers away from you.";
+            var contentString = '<div id = "content">' + '<h3 id = "First heading"> The closest Red Line Station to you is: </h3>' + redLineStations[closest].stationName + "." + '</br>' + "It is " + mindist + " kilometers away from you." + '</div>';
             google.maps.event.addListener(marker, 'click', function(){
                 infoWindow.setContent(contentString);
                 infoWindow.open(map,marker);
@@ -189,7 +190,7 @@ function closestDistance(userLat,userLng){
         distances[i] =d;
         if (closest == -1 || d <distances[closest]) {
             closest = i;
-            mindist = d;
+            mindist = d.toFixed(2);
         }
     }
     return {
