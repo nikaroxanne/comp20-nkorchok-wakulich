@@ -1,7 +1,7 @@
 //var request = new XMLHttpRequest();
 //var map;
 //var marker;
-//var infoWindow;
+var infoWindow;
 
 var redLineCenter = new google.maps.LatLng(42.352271, -71.05524200000001);
 
@@ -65,7 +65,7 @@ function init(){
     
     redCenterMarker.setMap(map);
     var markers = [];
-    var infoWindows = [];
+    //var infoWindows = [];
     for(var i =0; i<redLineStations.length; i++){
         var position = new google.maps.LatLng(redLineStations[i].lat, redLineStations[i].lng);
         var title = redLineStations[i].stationName;
@@ -75,36 +75,42 @@ function init(){
                 icon: image,
                 title: title
         });
-        infoWindows[i]= new google.maps.InfoWindow({
+        infoWindow = new google.maps.InfoWindow({
             content: "holding ..."
         });
+        //infoWindows[i] = new google.maps.InfoWindow({
+          //  content: "holding ..."
+        //});
         google.maps.event.addListener(markers[i],'click', function(){
                 var theMarker = this;
                 //infoWindow = infoWindows[i];
                 console.log(theMarker.title);    
-                request = new XMLHttpRequest();
+                var request = new XMLHttpRequest();
                 request.open("GET", "https://powerful-depths-66091.herokuapp.com/redline.json",true);
                 request.onreadystatechange = function(){
-                    if(request.readyState == 4 && request.status == 200){
-                        contentStringStations = "";
-                        redLineData = JSON.parse(request.responseText);
+                    if(this.readyState == 4 && this.status == 200){
+                        var contentStringStations = "";
+                        var redLineData = JSON.parse(this.responseText);
                         for (var i=0; i < redLineData.TripList.Trips.length; i++){
+                            var trip = redLineData.TripList.Trips[i];
+                                for( var j=0; j<trip.Predictions.length; j++){
+                                    if (trip.Predictions[j].Stop == theMarker.title) 
+                                    {
+                                        contentStringStations += '<div id = "content">' + '<h3 id="firstHeading"> Next Train at </h3>' + trip.Predictions[j].Stop + ", " + '</br>' + trip.Destination +  " bound, will arrive in " + trip.Predictions[j].Seconds + " seconds" + '</div>';
 
-                                if (redLineData.TripList.Trips[i].Predictions[0].Stop == theMarker.title) 
-                                {
-                                    contentStringStations += '<div id = "content">' + '<h3 id="firstHeading"> Next Train at </h3>' + redLineData.TripList.Trips[i].Predictions[0].Stop + ", " + '</br>' + redLineData.TripList.Trips[i].Destination +  " bound, will arrive in " + redLineData.TripList.Trips[i].Predictions[0].Seconds + " seconds" + '</div>';
-
+                                    }
                                 }
-                         } infoWindows[i].setContent(contentStringStations);
+                         }
+                        infoWindow.setContent(contentStringStations);
                            console.log(contentStringStations);
-                    } else if (request.readyState == 4 && request.status != 200) {
+                    } else if (this.readyState == 4 && this.status != 200) {
                         document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
                     }
-                    infoWindows[i].open(map,theMarker);
+                    infoWindow.open(map,theMarker);
             };
             request.send(null);
             markers.push(markers[i]);
-            infoWindows.push(infoWindows[i]);
+            //infoWindows.push(infoWindows[i]);
         });
     }   
     var redPolyline1 = new google.maps.Polyline({
