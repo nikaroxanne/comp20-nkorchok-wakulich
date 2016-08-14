@@ -1,7 +1,7 @@
-var request = new XMLHttpRequest();
-var map;
-var marker;
-var infoWindow = new google.maps.InfoWindow();
+//var request = new XMLHttpRequest();
+//var map;
+//var marker;
+//var infoWindow;
 
 var redLineCenter = new google.maps.LatLng(42.352271, -71.05524200000001);
 
@@ -65,7 +65,7 @@ function init(){
     
     redCenterMarker.setMap(map);
     var markers = [];
-    var infoWindow = new google.maps.InfoWindow(), marker, i;
+    var infoWindows = [];
     for(var i =0; i<redLineStations.length; i++){
         var position = new google.maps.LatLng(redLineStations[i].lat, redLineStations[i].lng);
         var title = redLineStations[i].stationName;
@@ -75,8 +75,12 @@ function init(){
                 icon: image,
                 title: title
         });
+        infoWindows[i]= new google.maps.InfoWindow({
+            content: "holding ..."
+        });
         google.maps.event.addListener(markers[i],'click', function(){
                 var theMarker = this;
+                //infoWindow = infoWindows[i];
                 console.log(theMarker.title);    
                 request = new XMLHttpRequest();
                 request.open("GET", "https://powerful-depths-66091.herokuapp.com/redline.json",true);
@@ -88,17 +92,19 @@ function init(){
 
                                 if (redLineData.TripList.Trips[i].Predictions[0].Stop == theMarker.title) 
                                 {
-                                    contentStringStations += '<div id = "content">' + '<h3 id="firstHeading"> Red Line Schedule for</h3>' + redLineData.TripList.Trips[i].Predictions[0].Stop + ", " + redLineData.TripList.Trips[i].Destination +  " bound, will arrive in " + redLineData.TripList.Trips[i].Predictions[0].Seconds + " seconds" + '</div>';
+                                    contentStringStations += '<div id = "content">' + '<h3 id="firstHeading"> Next Train at </h3>' + redLineData.TripList.Trips[i].Predictions[0].Stop + ", " + '</br>' + redLineData.TripList.Trips[i].Destination +  " bound, will arrive in " + redLineData.TripList.Trips[i].Predictions[0].Seconds + " seconds" + '</div>';
+
                                 }
-                         } infoWindow.setContent(contentStringStations);
+                         } infoWindows[i].setContent(contentStringStations);
                            console.log(contentStringStations);
                     } else if (request.readyState == 4 && request.status != 200) {
                         document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
                     }
-                    infoWindow.open(map,theMarker);
+                    infoWindows[i].open(map,theMarker);
             };
             request.send(null);
-            markers.push(marker);
+            markers.push(markers[i]);
+            infoWindows.push(infoWindows[i]);
         });
     }   
     var redPolyline1 = new google.maps.Polyline({
@@ -135,7 +141,7 @@ function init(){
         navigator.geolocation.getCurrentPosition(function(position){
             var userLat = position.coords.latitude;
             var userLng = position.coords.longitude;
-            var user = new google.maps.LatLng(userLat, userLng);
+            user = new google.maps.LatLng(userLat, userLng);
             var marker = new google.maps.Marker({
                 position: user,
                 title: 'Here you are!',
@@ -164,12 +170,56 @@ function init(){
                 strokeWeight: 2
             });
             polylineUserToStation.setMap(map);
+            /*var request = {
+                location: user,
+                radius: 1000,
+                keyword: 'art'
+            };
+            service = new google.maps.places.PlacesService(map);
+            service.textSearch(request,callback);*/
         });
     } else {
             alert('Your browser does not support geolocation. What a shame.');
     }
 }
+/*
+function performSearch(){
+    var request = {
+        location: user,
+        radius: 1000,
+        keyword: 'art'
+    };
+    service.radarSearch(request, callback);
+}
+*/
+/*
+function callback(results, status){
+    if (status == google.maps.places.PlacesServicesStatus.OK){
+        for (var i=0, i<results.length; i++){
+            var place = results[i];
+            addMarker(results[i]);
+        }
+    }
+}
 
+function addMarker(place) {
+    var marker = new google.maps.Marker({
+        map: map,
+        position: places.geometry.location,
+        icon: "whereAreYou.png"
+    });
+    google.maps.event.addListener(marker, 'click', function(){
+        service.getDetails(place, function(result, status){
+            if(status!== google.maps.places.PlacesServiceStatus.OK){
+                console.error(status);
+                return;
+            }
+            infoWindow.setContent(result.name);
+            infoWindow.open(map,marker);
+        });
+    });
+}
+*/
 
 function closestDistance(userLat,userLng){
     var pi = Math.pi;
