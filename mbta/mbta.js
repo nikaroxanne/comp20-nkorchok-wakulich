@@ -85,7 +85,7 @@ function init(){
                 var theMarker = this;
                 //infoWindow = infoWindows[i];
                 var request = new XMLHttpRequest();
-                request.open("GET", "https://powerful-depths-66091.herokuapp.com/redline.json",true);
+                request.open("GET", "https://thawing-peak-24515.herokuapp.com/redline.json",true);
                 request.onreadystatechange = function(){
                     if(this.readyState == 4 && this.status == 200){
                         var contentStringStations = "";
