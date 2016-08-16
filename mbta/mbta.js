@@ -84,7 +84,6 @@ function init(){
         google.maps.event.addListener(markers[i],'click', function(){
                 var theMarker = this;
                 //infoWindow = infoWindows[i];
-                console.log(theMarker.title);    
                 var request = new XMLHttpRequest();
                 request.open("GET", "https://powerful-depths-66091.herokuapp.com/redline.json",true);
                 request.onreadystatechange = function(){
@@ -102,7 +101,6 @@ function init(){
                                 }
                          }
                         infoWindow.setContent(contentStringStations);
-                           console.log(contentStringStations);
                     } else if (this.readyState == 4 && this.status != 200) {
                         document.getElementById("list").innerHTML = "<p> Oh no, your browser doesn't support this feature. </p> "
                     }
