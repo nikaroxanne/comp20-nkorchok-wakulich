@@ -4,7 +4,9 @@ lab12, comp20
 
 1. Elements correctly implemented: Server is written in Node.JS and uses Express web app framework, and is deployed on Heroku. Server has one route 'GET/redline.json' which returns JSON string of all Red Line Trains' schedules. CORS is enabled for the app.
 
-Elements not correctly implemented: App runs on local server but not Heroku. I will fix this shortly.
+Elements not correctly implemented: All elements are correctly implemented.
+
+Note: I plan to do several of the "Going Beyond" items. For now, I've implemented all necessary parts of the lab, but I will work on the lab tomorrow to continue implementing new features i.e. to gather user latitude/longitude data in MongoDB, etc.
 
 2. I spoke with John about the errors in my code and he was very helpful in explaining the differences between differently scoped variables/parameters which was causing me a lot of confusion and creating the errors. 
 I used the following websites for resources:
