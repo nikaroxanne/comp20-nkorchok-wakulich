@@ -93,19 +93,48 @@
                         <li> Resolution </li>
                             <p> The issue can be resolved by simply escaping the characters from user input so any script remains unexecuted and malicious attacks can be prevented. Additionally, since the required paramters for the database (login, lat, and lng) do not require special characters, positive or "whitelist" server-side input validation can be implemented so that inputs are validated based on length and characters before actually being entered into the database. </p>
                     </ul>
-                    <li> Hidden Fields </li> 
+                    <li> MongoDB injection </li> 
                     <ul>
                         <li> Location </li>
-                            <p>Available via the "post" command. </p>
+                            <p>Affects the GET API. </p>
                         <li> Severity of Issue </li>
-                        <p><span class= "Moderate"> High </span></p>
-                        <li> Description of Issue: </li>
-                            <p> Renders the website useless. </p>
+                        <p><span class= "mod"> Moderate </span></p>
+                        <li> Description of Issue: </li> 
+                        <p> The MongoDB injection results in this case from an overabdundance of trust in user input. While there are several instances in the code where a sanitizer is used to check user input for the entry in the database "locations" collection, there is no check for the login which is passed to the application, which presents a problem for the vulnerability of the database. Attackers can inject data into the database that either will execute a script (i.e. with a function call in a script, see Figure 3), or could remain dormant (such as the case in Figure 4, where a repetition of the same command is only executed once). Even in instances when the script in those entries is not executed (see Figure 2), the entries still take up valuable storage space in the database. The presence of such malicious entries also presents a problem because the deletion of one malicious entry does not necessarily prelude the deletion of all malicious entries.</p>
                         <li> Proof of Vulnerability </li>
-                            <p> Insert image here. </p> 
+                        <img src= " " alt = "" >
                             <p> Insert another image here. </p>
+                            <img src = " "  alt = " "> 
                         <li> Resolution </li>
-                            <p> The issue can be resolved by ... </p>
+                            <p> The issue can be resolved by simply sanitizing user input that is passed into the MONGODB query. By sanitizing special characters, not only will malicious attacks (i.e. Javacsript scripts) not be executed, but extra entries won't take up storage some in the collection, and also won't run the risk of being executed later on.</p>
+                            <pre><code>
+                            if (login != undefined && lat != undefined && lng != undefined && validator.isFloat(lat) && validator.isFloat(lng)) {
+		            lat = parseFloat(lat);
+	            	    lng = parseFloat(lng);
+		            if (lat >= -90.0 && lat <= 90 && lng >= -180 && lng <= 180) {
+			    var toInsert = {
+				"login":login,
+				"lat":lat,
+				"lng":lng,
+				"created_at":new Date()
+			    };
+
+                            </code></pre>
+                            <p> Should simply be changed to... </p>
+                            <pre><code>
+                            if (login != undefined && lat != undefined && lng != undefined && validator.isFloat(lat) && validator.isFloat(lng)) {
+		            lat = parseFloat(lat);
+		            lng = parseFloat(lng);
+		            if (lat >= -90.0 && lat <= 90 && lng >= -180 && lng <= 180) {
+			    var toInsert = {
+				"login":sanitize(login),
+				"lat":lat,
+				"lng":lng,
+				"created_at":new Date()
+			    };
+                            </code></pre>
+
+
                     </ul>
                     <li> Hidden Fields </li> 
                     <ul>
