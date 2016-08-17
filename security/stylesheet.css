@@ -69,12 +69,110 @@ li {
     
     text-align: left;
     color: #000000;
-    font-style: normal;
+    font-weight: bold;
     font-family: "Times New Roman", Times, serif;
-    font-size: 18px;
+    font-size: 22px;
 }
 
+p {
+    text-align: left;
+    color:#000000;
+    font-weight: normal;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+}
 p.title {
     font-style: italic;
 }
 
+#curlExample1, #curlExample2 {
+    width: 100%;
+    height: auto;
+}
+
+.high {
+    color: #FF0000;
+    font-weight: bold;
+}
+
+.mod {
+    color: #008000
+    font-weight: bold;
+}
+
+.low {
+    color: #9932CC;
+    font-weight: bold;
+}
+/*
+
+#curlExample1, #curlExample2 {
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+#curlExample1:hover, #curlExample2:hover, {
+    opacity: 0.8;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top:50px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: #000000;
+}
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 600px;
+}
+
+.caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+.modal-content, #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.5s;
+    animation-name: zoom;
+    animation-duration: 0.5s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)}
+    to{-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+.close {
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    color: #F8F8F8;
+    font-size: 20px;
+    font-weight: bold;
+}
+.close-hover, .close-focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+*/
