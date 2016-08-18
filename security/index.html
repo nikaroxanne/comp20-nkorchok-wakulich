@@ -26,7 +26,7 @@
             <h2>Methodology </h2>
             <p> I began by performing 'black box testing.' Without looking at the source code, I downloaded the files for the application onto my Virtual Machine and configured and ran the application. I then used curl from my terminal to try and hack the web application and thus was able to exploit several security vulnerabilities. I later explored these vulnerabilities as I carried out "white box testing" when I reviewed the source-code in-depth and reviewed ways that security breaches were possible and how to prevent those hacks. </p>
             <h2> Abstraction of Findings </h2>
-            <p> As it currently stands, the web application vulnerabilities make it nearly unserviceable for users. The multiple holes in defense allow for easy access and manipulation of user data in the database, as well as the facile transformation of the website using Javascript. While simple, these attacks could lead users to other sites, or at the very least, distract them with annoying pop-ups. It is imperative that the application implement security measures to better protext the data of its users and to return its state to one of functionality and accessibility.  </p>
+            <p> As it currently stands, the web application vulnerabilities make it nearly unserviceable for users. The multiple holes in defense allow for easy access and manipulation of user data in the database, as well as the facile transformation of the website using Javascript. While simple, these attacks could lead users to other sites, or at the very least, distract them with annoying pop-ups. It is imperative that the application implement security measures to better protect the data of its users and to return its state to one of functionality and accessibility.  </p>
             <h2> Issues Found </h2>
             <ol>
                     <li> Cross-Site Scripting (XSS) </li>
@@ -96,18 +96,18 @@
                     <li> MongoDB injection </li> 
                     <ul>
                         <li> Location </li>
-                            <p>Affects the GET API. </p>
+                            <p>Affects the GET API via the </p>
                         <li> Severity of Issue </li>
                         <p><span class= "mod"> Moderate </span></p>
                         <li> Description of Issue: </li> 
-                        <p> The MongoDB injection results in this case from an overabdundance of trust in user input. While there are several instances in the code where a sanitizer is used to check user input for the entry in the database "locations" collection, there is no check for the login which is passed to the application, which presents a problem for the vulnerability of the database. Attackers can inject data into the database that either will execute a script (i.e. with a function call in a script, see Figure 3), or could remain dormant (such as the case in Figure 4, where a repetition of the same command is only executed once). Even in instances when the script in those entries is not executed (see Figure 2), the entries still take up valuable storage space in the database. The presence of such malicious entries also presents a problem because the deletion of one malicious entry does not necessarily prelude the deletion of all malicious entries.</p>
+                        <p> The MongoDB injection results in this case from an overabdundance of trust in user input. While there are several instances in the code where a sanitizer is used to check user input for the entry in the database "locations" collection, namely with <code> toFloat(lat) </code> and <code> toFloat(lng)</code>, there is no check for the login which is passed to the application(see Figure 2), which presents a problem for the vulnerability of the database. Attackers can inject data into the database that either will execute a script (i.e. with a function call in a script, see Figure 1), or could remain dormant (such as the case in Figure 1, where a repetition of the same command is only executed once). Even in instances when the script in those entries is not executed (see Figure 1), the entries still take up valuable storage space in the database. The presence of such malicious entries also presents a problem because the deletion of one malicious entry does not necessarily prelude the deletion of all malicious entries.</p>
                         <li> Proof of Vulnerability </li>
                         <img id= "database1" src= "lab_13_database_1.jpg" alt = "Example of stored entries with malicious content in the database">
-                            <p> Figure 1: All entries in this database were entered via curl with white box testing. Although not all script calls are executed, all entries still rest in the databse, with their malicious Javascript intact.</p>
+                            <p> Figure 1: All entries in this database were entered via curl with white box testing. Although not all script calls are executed, all entries still rest in the databse, with their malicious Javascript intact. Note the script tags after each listed name in the "login" information.</p>
                             <img id = "validator1" src = "lab_13_validator_1.jpg"  alt = "Example of Validator checking Lat and Lng objects, not login"> 
                             <p> Figure 2: Here the Validator checks the values of the user-defined lat and lng objects, using the toFloat call from validator. However, Validator is not called to sanitize the value passed in for the login.</p>
                         <li> Resolution </li>
-                            <p> The issue can be resolved by simply sanitizing user input that is passed into the MONGODB query. By sanitizing special characters, not only will malicious attacks (i.e. Javacsript scripts) not be executed, but extra entries won't take up storage some in the collection, and also won't run the risk of being executed later on.</p>
+                            <p> The issue can be resolved by simply sanitizing user input that is passed into the MongoDB query. By sanitizing special characters, not only will malicious attacks (i.e. Javacsript scripts) not be executed, but extra entries won't take up storage some in the collection, and also won't run the risk of being executed later on.</p>
                             <pre><code>
                             if (login != undefined && lat != undefined && lng != undefined && validator.isFloat(lat) && validator.isFloat(lng)) {
 		            lat = parseFloat(lat);
@@ -137,19 +137,21 @@
 
 
                     </ul>
-                    <li> Hidden Fields </li> 
+                    <li> Acessibility to user information due to non-parameterized queries/ Broken Authentication and Session Management </li> 
                     <ul>
                         <li> Location </li>
-                            <p>Available via the "post" command. </p>
+                            <p> Via the get path on /checkins.json </p>
                         <li> Severity of Issue </li>
-                        <p><span class = "high"> High </span> </p>
+                        <p><span class = "low"> Low </span> </p>
                         <li> Description of Issue: </li>
-                            <p> Renders the website useless. </p>
+                            <p> This is an issue that could allow for a breach in security if a hacker were able to manipulate a query string in the URL for the path /checkins.json. Session IDs are exposed in the response data via the post method on this path, which puts both users and the application at risk. Since the response returns the _id number of each user's entry, returning this to the user also leaves the application open to vulnerability. It is best for an application to keep the intricacies of its internal systems not on public, so as not to open the application up to hackers who can use those intricacies to hack/break the application. Since the response (results) includes the _id which is characteristic of MongoDB, a hacker would only need to make use of this information in order to exploit the application.  </p>
                         <li> Proof of Vulnerability </li>
-                            <p> Insert image here. </p> 
-                            <p> Insert another image here. </p>
+                            <img id= "query1" src= "lab_13_query_1.jpg" alt = "Example of stored entries with malicious content in the database">
+                            <p> Using the correct query string, an attacker could view the entire collection for a parameterized login. Then, being able to view this, they could easily see the _id marker of MongoDB. </p> 
+                            <img id= "query2" src= "lab_13_query_2.jpg" alt = "Example of stored entries with malicious content in the database">
+                            <p> The user simply inputs a query string of a user login and then is able to view the _id of that entry. </p>
                         <li> Resolution </li>
-                            <p> The issue can be resolved by ... </p>
+                            <p> This issue is actually a vulnerability due to the construction of the response that is sent from the server to the user via the path /checkins.json. The query string for the   </p>
             </ol>
             <h2> Conclusion </h2>
             <p> Considering that the application was created for the <a href= "https://tuftsdev.github.io/WebProgramming/notes/web_security.html">"Security"</a> Section of the Comp 20 class, it should go without saying that this is an application that was, for all intents and purposes, made to be broken. In fact, the vulnerabilities of the application serve here in a greater sense as a teaching tool for the class to help students understand the myriad of ways that hackers can find and exploit vulnerabilities in web applications. By no means should this application be available to the public for use without serious overhaul of its security measures, as have been outlined above. However, as it stands now, the server-vuln application is an excellent example of vulnerabilities that allow attacks, such as XSS (Cross-Site Scripting) and Injection, to take place and thus the application could serve as an educational tool for other companies in an environment to present to them a real-time example of security susceptibility. </p>
