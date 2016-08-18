@@ -95,7 +95,7 @@
                         <li> Location </li>
                             <p> Via the get path on /checkins.json </p>
                         <li> Severity of Issue </li>
-                        <p><span class = "low"> Low </span> </p>
+                        <p><span class = "low"> Low </span> : since this attack requires an extensive knowledge of the application and a bit of creativity on the part of the hacker, it is harder to implement. It also yields less catastrophic results in terms of immediate feedback to the system and cannot be used to crash the application. Nevertheless, it is worth fixing as it does pose a risk with exposing the architecture of the application.</p>
                         <li> Description of Issue: </li>
                             <p> This is an issue that could allow for a breach in security if a hacker were able to manipulate a query string in the URL for the path /checkins.json. Session IDs are exposed in the response data via the post method on this path, which puts both users and the application at risk. Since the response returns the _id number of each user's entry, returning this to the user also leaves the application open to vulnerability. It is best for an application to keep the intricacies of its internal systems not on public, so as not to open the application up to hackers who can use those intricacies to hack/break the application. Since the response (results) includes the _id which is characteristic of MongoDB, a hacker would only need to make use of this information in order to exploit the application.  </p>
                         <li> Proof of Vulnerability </li>
@@ -104,7 +104,8 @@
                             <img id= "query2" src= "lab_13_query_2.jpg" alt = "Example of stored entries with malicious content in the database">
                             <p> The user simply inputs a query string of a user login and then is able to view the _id of that entry. </p>
                         <li> Resolution </li>
-                        <p> This issue is actually a vulnerability due to the construction of the response that is sent from the server to the user via the path /checkins.json. The query string for the login is built with the information of the _id unique to each entry (document) in the locations collection. If the _id from the returned JSON object entry in the "locations" database were to be hidden, removed, scrambled, or otherwise encrypted, then the vulnerability of the application would be significantly decreased. Note that it is the giveaway of information to the user of the architecture of the application that makes the application vulnerable. Once again, this is due to an overrealiance on the user input, and what the user will do with the opportunity to manipulate said input. Therfore, restructure </p> 
+                        <p> This issue is actually a vulnerability due to the construction of the response that is sent from the server to the user via the path /checkins.json. The query string for the login is built with the information of the _id unique to each entry (document) in the locations collection. If the _id from the returned JSON object entry in the "locations" database were to be hidden, removed, scrambled, or otherwise encrypted, then the vulnerability of the application would be significantly decreased. Note that it is the giveaway of information to the user of the architecture of the application that makes the application vulnerable. Once again, this is due to an overrealiance on the user input, and what the user will do with the opportunity to manipulate said input. Therefore, restructuring the response data being sent in the variable results is the solution to this security vulnerability. One can clearly see in the code snippet below that the entire document is being returned to the user via the input of <code> request.query.login </code>. Either a manipulation of <code> var loginEntry </code> or the results returned in <code> response.send(results) </code> is required to maintain the privacy and security of the database and the architecture of the application. </p> 
+                        
                         <pre> <code>
                         var loginEntry = request.query.login;
 	                if (loginEntry == undefined || loginEntry == null) {
@@ -123,28 +124,8 @@
                                 }
                             }
                         }
-                        </code></pre> to
-                        <pre><code>
-                        var loginEntry = request.query.login;
-	                if (loginEntry == undefined || loginEntry == null) {
-		            response.send("[]");
-	                }      
-	                else {
-		            db.collection('locations', function(error, collection) {
-			        collection.find({login:loginEntry}).toArray(function(error, results1) {
-                                collection.find({_id:idNumber}).toArray(function(error,results2){
-                                    results = results1 - results2;   
-                                    if (!results) {
-					response.send("[]");
-				    }
-				    else {
-					response.send(results);
-				    }   
-                                }
-                            }
-                        }
+                        </code></pre>
                         
-                        <code></pre> </p>
             </ol>
             <h2> Conclusion </h2>
             <p> Considering that the application was created for the <a href= "https://tuftsdev.github.io/WebProgramming/notes/web_security.html">"Security"</a> Section of the Comp 20 class, it should go without saying that this is an application that was, for all intents and purposes, made to be broken. In fact, the vulnerabilities of the application serve here in a greater sense as a teaching tool for the class to help students understand the myriad of ways that hackers can find and exploit vulnerabilities in web applications. By no means should this application be available to the public for use without serious overhaul of its security measures, as have been outlined above. However, as it stands now, the server-vuln application is an excellent example of vulnerabilities that allow attacks, such as XSS (Cross-Site Scripting) and Injection, to take place and thus the application could serve as an educational tool for other companies in an environment to present to them a real-time example of security susceptibility. </p>
