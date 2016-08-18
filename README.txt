@@ -11,14 +11,6 @@ Comp20 Course Recap
 
 3. My confidence in my computer science technical and creative skills has grown immensely from day one until now. I believe that have a wide exposure to various aspects of Web Programming (i.e. HTML, CSS, Javascript, MongoDB, NodeJS, etc.) has given me the knowledge of the myriad of elements that make up the diverse and dynamic world of Web Programming. I now feel that I have enough elementary knowledge to go forth and engage in self-learning with these topics, as I plan to create projects in the various languages that we have dabbled in throughout the course. 
 
- My confidence in my computer science technical and creative skills has grown immensely from day one until now. I believe that have a wide exposure to various aspects of Web Programming (i.e. HTML, CSS, Javascript, MongoDB, NodeJS, etc.) has given me the knowledge of the myriad of elements that make up the diverse and dynamic world of Web Programming. I now feel that I have enough elementary knowledge to go forth and engage in self-learning with these topics, as I plan to create projects in the various languages that we have dabbled in throughout the course. 
-
- My confidence in my computer science technical and creative skills has grown immensely from day one until now. I believe that have a wide exposure to various aspects of Web Programming (i.e. HTML, CSS, Javascript, MongoDB, NodeJS, etc.) has given me the knowledge of the myriad of elements that make up the diverse and dynamic world of Web Programming. I now feel that I have enough elementary knowledge to go forth and engage in self-learning with these topics, as I plan to create projects in the various languages that we have dabbled in throughout the course. 
-
- My confidence in my computer science technical and creative skills has grown immensely from day one until now. I believe that have a wide exposure to various aspects of Web Programming (i.e. HTML, CSS, Javascript, MongoDB, NodeJS, etc.) has given me the knowledge of the myriad of elements that make up the diverse and dynamic world of Web Programming. I now feel that I have enough elementary knowledge to go forth and engage in self-learning with these topics, as I plan to create projects in the various languages that we have dabbled in throughout the course. 
-
- My confidence in my computer science technical and creative skills has grown immensely from day one until now. I believe that have a wide exposure to various aspects of Web Programming (i.e. HTML, CSS, Javascript, MongoDB, NodeJS, etc.) has given me the knowledge of the myriad of elements that make up the diverse and dynamic world of Web Programming. I now feel that I have enough elementary knowledge to go forth and engage in self-learning with these topics, as I plan to create projects in the various languages that we have dabbled in throughout the course. 
-
 
 4. I learned many important things but an important one that I will take away:
 a) Never trust user input.
