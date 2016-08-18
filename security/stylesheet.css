@@ -85,7 +85,7 @@ p.title {
     font-style: italic;
 }
 
-#curlExample1, #curlExample2, #database1, #validator1 {
+#curlExample1, #curlExample2, #database1, #validator1, #query1, #query2 {
     width: 70%;
     height: auto;
 }
@@ -96,7 +96,7 @@ p.title {
 }
 
 .mod {
-    color: #008000
+    color: #008000;
     font-weight: bold;
 }
 

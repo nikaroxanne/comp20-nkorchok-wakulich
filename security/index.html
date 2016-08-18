@@ -11,7 +11,7 @@
             <header> 
                 <h1> Security and Privacy Assessment of a Web Application <h1>
                         <h2>Comp 20: Lab 13</h2>
-                        <h2> Nika Korchok Wakulich </h2>
+                        <h2> <a href="https://github.com/nikaroxanne">Nika Korchok Wakulich</a> </h2>
                         <p id= "date"> </p>
                         <script> 
                             var d = new Date();
@@ -34,7 +34,7 @@
                         <li> Location </li>
                             <p> POST API </p>
                         <li> Severity of Issue </li>
-                            <p> High </p>
+                        <p><span class="high"> High </span></p>
                         <li> Description of Issue: </li>
                             <p> This instance of Cross-Site Scripting leaves users especially vulnerable because it fails to check input for validity before posting it to the site. While there is a check on two of the fields of entry for the database (mainly the check validator.toFloat(lat) and validator.toFloat(lng), there is no check on the entry field for login, so an attacker could insert a script to create an alert, redirect a user to a malicious site, or change the very structure of the server-vuln app itself. </p>
                         <li> Proof of Vulnerability </li>
@@ -43,53 +43,6 @@
 
                         <img id = "curlExample2" src= "lab_13_curl_example_2.jpg" alt text= "The resulting alert that appears onload of the application, after XSS">
                         <p> The resulting alert that appears onload of the application, after XSS </p>
-
-                        <!--    
-                        <img id = "curlExample1" src= "lab_13_curl_example_1.jpg" alt text= "Executing the post with script injection via curl" width = "300" height ="200">
-                            <div id = "Modal1" class = "modal">
-                                <span class = "close" onclick=document.getElementByID("Modal1").style.display='none'"></span>
-                                <img class="modal-content" id="img01"> 
-                                <div id="caption"></div>
-                            </div>
-                            <script>
-                            var modal = document.getElementById= ("Modal1");
-                            var img = document.getElementById= ("curlExample1");
-                            var modalImg = document.getElementById = ("img01");
-                            var captionText = document.getElementById = ("caption");
-                            img.onclick= function(){
-                                modal.style.display = "block";
-                                modalImg.src = this.src;
-                                modalImg.alt = this.alt;
-                                captionText.innerHTML = this.alt;
-                            }
-                            var span = document.getElementsByClassName ("close")[0]; 
-                            span.onclick = function(){
-                                modal.style.display = "none";
-                            }
-                            </script>
-
-                            <img id = "curlExample2" src= "lab_13_curl_example_2.tiff" alt text= "The resulting alert that appears onload of the application, after XSS" width = "300" height ="200">
-                            <div id = "Modal2" class = "modal">
-                                <span class = "close"></span>
-                                <img class="modal-content" id="img02"> 
-                                <div id="caption"></div>
-                            </div>
-                            <script>
-                            var modal = document.getElementById= ("Modal2");
-                            var img = document.getElementById= ("curlExample2");
-                            var modalImg = document.getElementById = ("img02");
-                            var captionText = document.getElementById = ("caption");
-                            img.onclick= function(){
-                                modal.style.display = "block";
-                                modalImg.src = this.src;
-                                modalImg.alt = this.alt;
-                                captionText.innerHTML = this.alt;
-                            }
-                            var span = document.getElementsByClassName ("close")[0]; 
-                            span.onclick = function(){
-                                modal.style.display = "none";
-                            }
-                            </script> -->
                         <li> Resolution </li>
                             <p> The issue can be resolved by simply escaping the characters from user input so any script remains unexecuted and malicious attacks can be prevented. Additionally, since the required paramters for the database (login, lat, and lng) do not require special characters, positive or "whitelist" server-side input validation can be implemented so that inputs are validated based on length and characters before actually being entered into the database. </p>
                     </ul>
@@ -151,7 +104,47 @@
                             <img id= "query2" src= "lab_13_query_2.jpg" alt = "Example of stored entries with malicious content in the database">
                             <p> The user simply inputs a query string of a user login and then is able to view the _id of that entry. </p>
                         <li> Resolution </li>
-                            <p> This issue is actually a vulnerability due to the construction of the response that is sent from the server to the user via the path /checkins.json. The query string for the   </p>
+                        <p> This issue is actually a vulnerability due to the construction of the response that is sent from the server to the user via the path /checkins.json. The query string for the login is built with the information of the _id unique to each entry (document) in the locations collection. If the _id from the returned JSON object entry in the "locations" database were to be hidden, removed, scrambled, or otherwise encrypted, then the vulnerability of the application would be significantly decreased. Note that it is the giveaway of information to the user of the architecture of the application that makes the application vulnerable. Once again, this is due to an overrealiance on the user input, and what the user will do with the opportunity to manipulate said input. Therfore, restructure </p> 
+                        <pre> <code>
+                        var loginEntry = request.query.login;
+	                if (loginEntry == undefined || loginEntry == null) {
+		            response.send("[]");
+    	                }
+	                else {
+		            db.collection('locations', function(error, collection) {
+			        collection.find({login:loginEntry}).toArray(function(error, results) {
+				    if (!results) {
+					response.send("[]");
+				    }
+				    else {
+					response.send(results);
+				    } 
+                        
+                                }
+                            }
+                        }
+                        </code></pre> to
+                        <pre><code>
+                        var loginEntry = request.query.login;
+	                if (loginEntry == undefined || loginEntry == null) {
+		            response.send("[]");
+	                }      
+	                else {
+		            db.collection('locations', function(error, collection) {
+			        collection.find({login:loginEntry}).toArray(function(error, results1) {
+                                collection.find({_id:idNumber}).toArray(function(error,results2){
+                                    results = results1 - results2;   
+                                    if (!results) {
+					response.send("[]");
+				    }
+				    else {
+					response.send(results);
+				    }   
+                                }
+                            }
+                        }
+                        
+                        <code></pre> </p>
             </ol>
             <h2> Conclusion </h2>
             <p> Considering that the application was created for the <a href= "https://tuftsdev.github.io/WebProgramming/notes/web_security.html">"Security"</a> Section of the Comp 20 class, it should go without saying that this is an application that was, for all intents and purposes, made to be broken. In fact, the vulnerabilities of the application serve here in a greater sense as a teaching tool for the class to help students understand the myriad of ways that hackers can find and exploit vulnerabilities in web applications. By no means should this application be available to the public for use without serious overhaul of its security measures, as have been outlined above. However, as it stands now, the server-vuln application is an excellent example of vulnerabilities that allow attacks, such as XSS (Cross-Site Scripting) and Injection, to take place and thus the application could serve as an educational tool for other companies in an environment to present to them a real-time example of security susceptibility. </p>
