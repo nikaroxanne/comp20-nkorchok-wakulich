@@ -85,8 +85,8 @@ p.title {
     font-style: italic;
 }
 
-#curlExample1, #curlExample2 {
-    width: 100%;
+#curlExample1, #curlExample2, #database1, #validator1 {
+    width: 70%;
     height: auto;
 }
 

@@ -102,9 +102,10 @@
                         <li> Description of Issue: </li> 
                         <p> The MongoDB injection results in this case from an overabdundance of trust in user input. While there are several instances in the code where a sanitizer is used to check user input for the entry in the database "locations" collection, there is no check for the login which is passed to the application, which presents a problem for the vulnerability of the database. Attackers can inject data into the database that either will execute a script (i.e. with a function call in a script, see Figure 3), or could remain dormant (such as the case in Figure 4, where a repetition of the same command is only executed once). Even in instances when the script in those entries is not executed (see Figure 2), the entries still take up valuable storage space in the database. The presence of such malicious entries also presents a problem because the deletion of one malicious entry does not necessarily prelude the deletion of all malicious entries.</p>
                         <li> Proof of Vulnerability </li>
-                        <img src= " " alt = "" >
-                            <p> Insert another image here. </p>
-                            <img src = " "  alt = " "> 
+                        <img id= "database1" src= "lab_13_database_1.jpg" alt = "Example of stored entries with malicious content in the database">
+                            <p> Figure 1: All entries in this database were entered via curl with white box testing. Although not all script calls are executed, all entries still rest in the databse, with their malicious Javascript intact.</p>
+                            <img id = "validator1" src = "lab_13_validator_1.jpg"  alt = "Example of Validator checking Lat and Lng objects, not login"> 
+                            <p> Figure 2: Here the Validator checks the values of the user-defined lat and lng objects, using the toFloat call from validator. However, Validator is not called to sanitize the value passed in for the login.</p>
                         <li> Resolution </li>
                             <p> The issue can be resolved by simply sanitizing user input that is passed into the MONGODB query. By sanitizing special characters, not only will malicious attacks (i.e. Javacsript scripts) not be executed, but extra entries won't take up storage some in the collection, and also won't run the risk of being executed later on.</p>
                             <pre><code>
